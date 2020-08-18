@@ -27,7 +27,6 @@ class Sprite {
     }
 
     draw(name, context, x, y, resizeX=1, resizeY=1){
-        debugger
         const ele = this.tiles.get(name);
         context.drawImage(ele, x*this.width, y*this.height, this.width*resizeX, this.height*resizeY);        
     }

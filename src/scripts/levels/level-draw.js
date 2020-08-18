@@ -30,8 +30,9 @@ export function createMainBgLayer(mainBg){
   }
 }
 
-export function createPrincessIdleLayer(sprite, pos){
-  return function drawPrincessIdleLayer(context){
-    sprite.draw("princessIdle", context, pos.x, pos.y, 3, 3)
+export function createPrincessLayer(princess){
+  return function drawPrincessLayer(context){
+    debugger
+    princess.draw(context);
   }
 }

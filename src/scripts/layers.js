@@ -1,4 +1,4 @@
-class Layer {
+export default class Layer {
     constructor(){
         this.layers = [];
     }
@@ -10,4 +10,3 @@ class Layer {
     }
 }
 
-module.exports = Layer;

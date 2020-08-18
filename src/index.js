@@ -3,10 +3,9 @@ import './scripts/loaders';
 import Sprite from './scripts/sprite';
 import { loadImage, loadLevel } from "./scripts/loaders";
 import { 
-  drawGround, 
   createGroundLayer,
   createMainBgLayer, 
-  createPrincessIdleLayer
+  createPrincessLayer
 } from './scripts/levels/level-draw';
 import {
   loadBackgroundLayers,
@@ -14,6 +13,8 @@ import {
   loadPrincessIdle,
 } from "./scripts/sprite-load";
 import Layer from './scripts/layers';
+import {createPrincessIdle} from './scripts/princess';
+import FixedTimeLoop from './scripts/fixed-time-loop';
 
 const HEIGHT = 400;
 const WIDTH = 600;
@@ -26,23 +27,26 @@ document.addEventListener("DOMContentLoaded", function () {
     loadBackgroundLayers(),
     loadBackgroundTiles(),
     loadLevel("level-1"),
-    loadPrincessIdle(),
+    createPrincessIdle(),
   ]).then(([mainBg, jungleTiles, level, princessIdle]) => {
-    const pos = {x: 0, y: 7.5}
+    
     const layer = new Layer();
     layer.layers.push(createMainBgLayer(mainBg));
     layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles));
-    layer.layers.push(createPrincessIdleLayer(princessIdle, pos));
+    layer.layers.push(createPrincessLayer(princessIdle));
     debugger;
-     
-    function update(){
+    
+    const gravity = 3;
+    princessIdle.pos.setVector(0,10);
+    princessIdle.vel.setVector(3,-5);
+
+    const fixedLoop = new FixedTimeLoop();
+    fixedLoop.update = function update(timestep){
       layer.draw(ctx);
-      pos.x += 0.1;
-      //pos.y += 0.1;
-      // call update function the browser draws something on the screen
-      requestAnimationFrame(update);
+      princessIdle.update(timestep);
+      princessIdle.vel.y += gravity * timestep;
     }
-    update();
+    fixedLoop.start();
   });
 
 });
