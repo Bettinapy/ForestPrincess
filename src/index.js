@@ -2,12 +2,19 @@ import "./styles/index.scss";
 import './scripts/loaders';
 import Sprite from './scripts/sprite';
 import { loadImage, loadLevel } from "./scripts/loaders";
-import {drawLevel} from './scripts/levels/level-draw';
+import { 
+  drawGround, 
+  createGroundLayer,
+  createMainBgLayer, 
+  createPrincessIdleLayer
+} from './scripts/levels/level-draw';
 import {
   loadBackgroundLayers,
   loadBackgroundTiles,
   loadPrincessIdle,
 } from "./scripts/sprite-load";
+import Layer from './scripts/layers';
+
 const HEIGHT = 400;
 const WIDTH = 600;
 
@@ -16,20 +23,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const ctx = canvas.getContext("2d");
   
   Promise.all([
-    loadBackgroundLayers(ctx),
+    loadBackgroundLayers(),
     loadBackgroundTiles(),
     loadLevel("level-1"),
     loadPrincessIdle(),
-  ]).then(([layer, jungleTiles, level, princessIdle]) => {
-    console.log("level loaded");
-    console.log(level);
+  ]).then(([mainBg, jungleTiles, level, princessIdle]) => {
+    const pos = {x: 0, y: 7.5}
+    const layer = new Layer();
+    layer.layers.push(createMainBgLayer(mainBg));
+    layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles));
+    layer.layers.push(createPrincessIdleLayer(princessIdle, pos));
     debugger;
-    if (level) {
-      level.backgrounds.forEach((bg) => {
-        drawLevel(bg, ctx, jungleTiles);
-      });
+     
+    function update(){
+      layer.draw(ctx);
+      pos.x += 0.1;
+      //pos.y += 0.1;
+      // call update function the browser draws something on the screen
+      requestAnimationFrame(update);
     }
-    princessIdle.draw("princessIdle", ctx, 0, 7.5,3,3)
+    update();
   });
 
 });

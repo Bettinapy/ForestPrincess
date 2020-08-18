@@ -1,21 +1,12 @@
 import Sprite from './sprite';
 import {loadImage} from './loaders';
 
-export function loadBackgroundLayers(ctx){
-    loadImage("src/images/plx-1.png").then((bgLayer1) => {
-      ctx.drawImage(bgLayer1, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-2.png").then((bgLayer2) => {
-      ctx.drawImage(bgLayer2, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-3.png").then((bgLayer3) => {
-      ctx.drawImage(bgLayer3, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-4.png").then((bgLayer4) => {
-      ctx.drawImage(bgLayer4, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-5.png").then((bgLayer5) => {
-      ctx.drawImage(bgLayer5, 0, 0, 600, 400);
+export function loadBackgroundLayers(){
+    return loadImage("src/images/main-bg.png").then((mainImg) => {
+      const mainBg = new Sprite(mainImg, 600, 400);
+      mainBg.create("mainBg", 0, 0);
+      debugger
+      return mainBg;
     });
 }
 
