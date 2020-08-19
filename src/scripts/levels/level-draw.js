@@ -32,7 +32,7 @@ export function createMainBgLayer(mainBg){
 
 export function createPrincessLayer(princess){
   return function drawPrincessLayer(context){
-    debugger
+
     princess.draw(context);
   }
 }

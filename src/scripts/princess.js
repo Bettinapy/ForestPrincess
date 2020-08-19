@@ -1,14 +1,19 @@
-import MovingObject from './moving_objects';
+import MovingObject from './movements/moving_objects';
 import {loadPrincessIdle} from './sprite-load';
+import Jump from './movements/jump';
+import Velocity from './movements/velocity';
+import Run from './movements/run';
+
 export function createPrincessIdle(){
     return loadPrincessIdle()
         .then(princess => {
             const princessIdle = new MovingObject();
-            princessIdle.pos.setVector(0,7);
-            princessIdle.vel.setVector(0.2,-0.6);
 
+            princessIdle.jump = new Jump();
+            princessIdle.move = new Velocity();
+            princessIdle.run = new Run();
             princessIdle.draw = function drawPrincessIdle(context){
-                debugger
+    
                 princess.draw("princessIdle", context, this.pos.x, this.pos.y, 3, 3);
             }
             return princessIdle;

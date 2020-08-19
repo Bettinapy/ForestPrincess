@@ -32,4 +32,4 @@ class Sprite {
     }
 }
 
-module.exports = Sprite;
+export default Sprite;

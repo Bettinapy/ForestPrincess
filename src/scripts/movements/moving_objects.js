@@ -1,4 +1,4 @@
-import {Vector} from './vectors';
+import {Vector} from '../vectors';
 
 class MovingObject{
     constructor(options){

@@ -5,7 +5,7 @@ export function loadBackgroundLayers(){
     return loadImage("src/images/main-bg.png").then((mainImg) => {
       const mainBg = new Sprite(mainImg, 600, 400);
       mainBg.create("mainBg", 0, 0);
-      debugger
+
       return mainBg;
     });
 }
