@@ -1,11 +1,33 @@
+import Matrix from './matrix';
+import TileCollider from '../collision/tile-collider';
+
 export default class Layer {
     constructor(){
         this.layers = [];
+        this.tiles = new Matrix();
+        this.characters = new Set();
+        this.tileCollider = new TileCollider(this.tiles);
     }
 
     draw(context){
         this.layers.forEach(layer => {
             layer(context)
+        })
+    }
+
+    update(timestep){
+        this.characters.forEach(character => {
+            character.jump.update(character, timestep);
+            character.run.update(character, timestep);
+            //character.move.update(character, timestep);
+            
+            character.pos.x += character.vel.x * timestep;
+            this.tileCollider.checkCollisionX(character);
+
+      
+            character.pos.y += character.vel.y * timestep;
+            this.tileCollider.checkCollisionY(character);
+
         })
     }
 }

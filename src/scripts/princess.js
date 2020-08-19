@@ -8,10 +8,12 @@ export function createPrincessIdle(){
     return loadPrincessIdle()
         .then(princess => {
             const princessIdle = new MovingObject();
+            princessIdle.size.setVector(60, 60)
 
             princessIdle.jump = new Jump();
-            princessIdle.move = new Velocity();
             princessIdle.run = new Run();
+            princessIdle.move = new Velocity();
+
             princessIdle.draw = function drawPrincessIdle(context){
     
                 princess.draw("princessIdle", context, this.pos.x, this.pos.y, 3, 3);

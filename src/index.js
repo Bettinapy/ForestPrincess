@@ -1,11 +1,12 @@
 import "./styles/index.scss";
 import './scripts/loaders';
 import Sprite from './scripts/sprite';
-import { loadImage, loadLevel } from "./scripts/loaders";
+import { loadLevel } from "./scripts/loaders";
 import { 
   createGroundLayer,
   createMainBgLayer, 
-  createPrincessLayer
+  createPrincessLayer,
+  createTileMatrix
 } from './scripts/levels/level-draw';
 import {
   loadBackgroundLayers,
@@ -16,6 +17,8 @@ import Layer from './scripts/levels/layers';
 import {createPrincessIdle} from './scripts/princess';
 import FixedTimeLoop from './scripts/fixed-time-loop';
 import KeyboardInput from './scripts/keyboard-input';
+import Matrix from './scripts/levels/matrix';
+window.Matrix = Matrix;
 
 const HEIGHT = 400;
 const WIDTH = 600;
@@ -35,24 +38,40 @@ document.addEventListener("DOMContentLoaded", function () {
     layer.layers.push(createMainBgLayer(mainBg));
     layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles));
     layer.layers.push(createPrincessLayer(princessIdle));
-   
     
+    // add to characters
+    layer.characters.add(princessIdle)
+
+    // create matrix
+    createTileMatrix(level.backgrounds, layer.tiles)
+   
+
+    // keyboard input
     const input = new KeyboardInput(princessIdle);
-    debugger
-    const SPACE = 32;
-    console.log(input.spacePressed);
-  
+    const SPACE = 32;  
     input.listenKeys(window);
     
-    const gravity = 7;
-    princessIdle.pos.setVector(1,3);
-    //princessIdle.vel.setVector(3,-5);   
+    // for TESTING
+    // ['mousedown', 'mousemove'].forEach(eventName => {
+    //   canvas.addEventListener(eventName, event => {
+    //     if (event.buttons === 1) {
+    //       princessIdle.vel.setVector(0, 0);
+    //       princessIdle.pos.setVector(event.offsetX, event.offsetY);
+    //     }
+    //   });
+    // });
+
+    const gravity = 1000;
+    princessIdle.pos.setVector(1, 270);
+
       
     const fixedLoop = new FixedTimeLoop();
     fixedLoop.update = function update(timestep){
       layer.draw(ctx);
-      princessIdle.jump.update(princessIdle, timestep);
-      princessIdle.run.update(princessIdle, timestep)
+
+      layer.update(timestep);
+      // princessIdle.jump.update(princessIdle, timestep);
+      // princessIdle.run.update(princessIdle, timestep)
       //princessIdle.move.update(princessIdle, timestep);
       //princessIdle.update(timestep);
       princessIdle.vel.y += gravity * timestep;

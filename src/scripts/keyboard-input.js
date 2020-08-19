@@ -11,15 +11,16 @@ class KeyboardInput{
     keyDownHandler(event) {
         event.preventDefault();
         if (event.keyCode === 39) {
-            debugger
-            this.character.run.dir = 1;
+           
+            this.character.run.dir = event.keyCode;
             this.rightPressed = true;
         }
         else if (event.keyCode === 37) {
+            this.character.run.dir = -event.keyCode;
             this.leftPressed = true;
         }
         if (event.keyCode === 32) {
-            debugger
+           
             this.character.jump.start();
             this.spacePressed = true;
         }
@@ -28,9 +29,11 @@ class KeyboardInput{
     keyUpHandler(event) {
         event.preventDefault();
         if (event.keyCode === 39) {
+            this.character.run.dir = 0;
             this.rightPressed = false;
         }
         else if (event.keyCode === 37) {
+            this.character.run.dir = 0;
             this.leftPressed = false;
         }
         if (event.keyCode === 32) {
@@ -40,7 +43,7 @@ class KeyboardInput{
     }
 
     listenKeys(window){
-        console.log('listen')
+
         window.addEventListener('keydown', this.keyDownHandler);
         window.addEventListener('keyup', this.keyUpHandler);
     }

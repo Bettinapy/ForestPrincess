@@ -1,14 +1,14 @@
 class Jump{
     constructor(){
-        this.duration = 0.5;
+        this.duration = 0.05;
         this.exactTime = 0;
-        this.velocityY= 5;
-        this.velocityX = 2;
+        this.velocityY= 500;
+        this.velocityX = 20;
     }
 
     start(){
         this.exactTime = this.duration;
-        debugger
+ 
     }
 
     stop(){
@@ -17,9 +17,9 @@ class Jump{
 
     update(character, timestep){
         if(this.exactTime > 0){
-            debugger
+     
             character.vel.y = -this.velocityY;
-            character.vel.x = this.velocityX;
+            //character.vel.x = this.velocityX;
             this.exactTime -= timestep;
         }
         // character.pos.x += character.vel.x * timestep;

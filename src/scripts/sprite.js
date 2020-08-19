@@ -28,7 +28,12 @@ class Sprite {
 
     draw(name, context, x, y, resizeX=1, resizeY=1){
         const ele = this.tiles.get(name);
-        context.drawImage(ele, x*this.width, y*this.height, this.width*resizeX, this.height*resizeY);        
+        context.drawImage(ele, x, y, this.width*resizeX, this.height*resizeY);        
+    }
+
+    drawTile(name, context, x, y, resizeX = 1, resizeY = 1) {
+        const ele = this.tiles.get(name);
+        context.drawImage(ele, x*this.width, y*this.height, this.width * resizeX, this.height * resizeY);
     }
 }
 

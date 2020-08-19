@@ -2,15 +2,15 @@
     "backgrounds":[
         {
             "tile": "flatGround",
-            "ranges": [[0, 25,12, 13]]
+            "ranges": [[0, 25,11, 12]]
         },
         {
           "tile": "ground",
-          "ranges": [[0, 25, 13, 14]]
+          "ranges": [[0, 25, 12, 13]]
         },
         {
           "tile": "greenGrass",
-          "ranges": [[0, 25, 0, 0]]
+          "ranges": [[14, 16, 9, 11]]
         }
     ]
 }

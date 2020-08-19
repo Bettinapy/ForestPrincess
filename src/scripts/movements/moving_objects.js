@@ -1,9 +1,10 @@
-import {Vector} from '../vectors';
+import {Vector} from './vectors';
 
 class MovingObject{
-    constructor(options){
+    constructor(){
         this.pos = new Vector(0,0);
         this.vel = new Vector(0, 0);
+        this.size = new Vector(0,0);
     }
     
     update(timestep){

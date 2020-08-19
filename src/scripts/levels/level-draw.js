@@ -4,7 +4,7 @@ export function drawGround(background, context, sprites) {
 
     for (let x = x1; x < x2; x++) {
       for (let y = y1; y < y2; y++) {
-        sprites.draw(background.tile, context, x, y);
+        sprites.drawTile(background.tile, context, x, y);
       }
     }
   });
@@ -35,4 +35,18 @@ export function createPrincessLayer(princess){
 
     princess.draw(context);
   }
+}
+
+export function createTileMatrix(backgrounds, tiles){
+  backgrounds.forEach(background => {
+    background.ranges.forEach(([x1, x2, y1, y2]) => {
+  
+      for (let x = x1; x < x2; x++) {
+        for (let y = y1; y < y2; y++) {
+          tiles.set(x, y, {name: background.tile})
+        }
+      }
+    });
+
+  })
 }
