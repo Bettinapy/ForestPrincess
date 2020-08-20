@@ -11,29 +11,51 @@ export function drawGround(background, context, sprites) {
 }
 
 export function createGroundLayer(backgrounds, sprites){
+  const worldW = 24000;
+
   const groundBuffer = document.createElement('canvas');
-  groundBuffer.height = 400;
-  groundBuffer.width = 600;
+  groundBuffer.height = 390;
+  groundBuffer.width = worldW;
 
   backgrounds.forEach(bg => {
     drawGround(bg, groundBuffer.getContext('2d'), sprites)
   })
 
-  return function drawGroundLayer(context){
-    context.drawImage(groundBuffer, 0, 0);
+  return function drawGroundLayer(context, camera){
+
+    context.drawImage(groundBuffer, -camera.pos.x, 0);
   }
 }
 
 export function createMainBgLayer(mainBg){
-  return function drawMainBgLayer(context){
-    mainBg.draw("mainBg", context, 0, 0, 1.8, 1.8);
+  const worldW = 24000;
+  const mainBgBuffer = document.createElement('canvas');
+  mainBgBuffer.height = 390;
+  mainBgBuffer.width = 600 * 2 + 50;
+  const mainBgBufferContext = mainBgBuffer.getContext('2d');
+  
+  return function drawMainBgLayer(context, camera){
+
+    mainBg.draw("mainBg", context, 0, 0, 2, 2);
+
   }
 }
 
 export function createPrincessLayer(princess){
-  return function drawPrincessLayer(context){
-
-    princess.draw(context);
+  const princessBuffer = document.createElement('canvas');
+  princessBuffer.height = 60;
+  princessBuffer.width = 60;
+  const princessBufferContext = princessBuffer.getContext('2d');
+  return function drawPrincessLayer(context, camera){
+    princessBufferContext.clearRect(0, 0, 60, 60);
+    princess.draw(princessBufferContext);
+  
+    context.drawImage(
+      princessBuffer, 
+      princess.pos.x - camera.pos.x, 
+      princess.pos.y - camera.pos.y
+      )
+    //princess.draw(context)
   }
 }
 

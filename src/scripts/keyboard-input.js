@@ -20,9 +20,11 @@ class KeyboardInput{
             this.leftPressed = true;
         }
         if (event.keyCode === 32) {
-           
-            this.character.jump.start();
-            this.spacePressed = true;
+            // avoid jump stack
+            if (this.character.jump.exactTime === 0 && Math.abs(this.character.vel.y) < 34){
+                this.character.jump.start();
+                this.spacePressed = true;
+            }
         }
 }
 

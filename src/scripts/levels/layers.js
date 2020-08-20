@@ -9,24 +9,26 @@ export default class Layer {
         this.tileCollider = new TileCollider(this.tiles);
     }
 
-    draw(context){
+    draw(context, camera){
         this.layers.forEach(layer => {
-            layer(context)
+            layer(context, camera)
         })
     }
 
-    update(timestep){
+    update(timestep, camera){
+        const gravity = 2000;
         this.characters.forEach(character => {
+ 
             character.jump.update(character, timestep);
             character.run.update(character, timestep);
-            //character.move.update(character, timestep);
             
             character.pos.x += character.vel.x * timestep;
             this.tileCollider.checkCollisionX(character);
-
-      
+            
             character.pos.y += character.vel.y * timestep;
             this.tileCollider.checkCollisionY(character);
+            
+            character.vel.y += gravity * timestep;
 
         })
     }

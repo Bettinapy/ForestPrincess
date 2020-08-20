@@ -1,23 +1,34 @@
 import MovingObject from './movements/moving_objects';
-import {loadPrincessIdle} from './sprite-load';
+import {loadPrincessIdle, loadPrincessRun} from './sprite-load';
 import Jump from './movements/jump';
-import Velocity from './movements/velocity';
 import Run from './movements/run';
 
 export function createPrincessIdle(){
-    return loadPrincessIdle()
-        .then(princess => {
-            const princessIdle = new MovingObject();
-            princessIdle.size.setVector(60, 60)
+    return Promise.all([
+        loadPrincessIdle(),
+        loadPrincessRun()
+    ]
+    ).then(([pIdle, pRun]) => {
+            const princess = new   MovingObject();
+            princess.size.setVector(60, 60)
 
-            princessIdle.jump = new Jump();
-            princessIdle.run = new Run();
-            princessIdle.move = new Velocity();
+            princess.jump = new Jump();
+            princess.run = new Run();
 
-            princessIdle.draw = function drawPrincessIdle(context){
-    
-                princess.draw("princessIdle", context, this.pos.x, this.pos.y, 3, 3);
+            const pRuns = ['run-1', 'run-2', 'run-3']
+            
+            princess.draw = function drawPrincess(context){
+        
+                //princess.draw("princessIdle", context, this.pos.x, this.pos.y, 3, 3);                
+                let pRunsIdx = (Math.floor(princess.run.distance / 10)) % pRuns.length;
+                if(princess.run.dir !== 0){
+                    pRun.draw(pRuns[pRunsIdx], context, 0,0,3,3, princess.run.dir < 0);
+                }else{
+                    pIdle.draw("idle-1", context, 0, 0, 3, 3);
+                }
+                
+                
             }
-            return princessIdle;
+            return princess;
         })
 }

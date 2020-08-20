@@ -17,11 +17,8 @@ import Layer from './scripts/levels/layers';
 import {createPrincessIdle} from './scripts/princess';
 import FixedTimeLoop from './scripts/fixed-time-loop';
 import KeyboardInput from './scripts/keyboard-input';
-import Matrix from './scripts/levels/matrix';
-window.Matrix = Matrix;
+import Camera from './scripts/camera';
 
-const HEIGHT = 400;
-const WIDTH = 600;
 
 document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementsByTagName("canvas")[0];
@@ -46,35 +43,27 @@ document.addEventListener("DOMContentLoaded", function () {
     createTileMatrix(level.backgrounds, layer.tiles)
    
 
+    // scrolling camera
+    const camera = new Camera;
+
+
     // keyboard input
     const input = new KeyboardInput(princessIdle);
-    const SPACE = 32;  
     input.listenKeys(window);
+
     
-    // for TESTING
-    // ['mousedown', 'mousemove'].forEach(eventName => {
-    //   canvas.addEventListener(eventName, event => {
-    //     if (event.buttons === 1) {
-    //       princessIdle.vel.setVector(0, 0);
-    //       princessIdle.pos.setVector(event.offsetX, event.offsetY);
-    //     }
-    //   });
-    // });
-
-    const gravity = 1000;
-    princessIdle.pos.setVector(1, 270);
-
+    //princessIdle.pos.setVector(1, 270);
       
     const fixedLoop = new FixedTimeLoop();
     fixedLoop.update = function update(timestep){
-      layer.draw(ctx);
 
-      layer.update(timestep);
-      // princessIdle.jump.update(princessIdle, timestep);
-      // princessIdle.run.update(princessIdle, timestep)
-      //princessIdle.move.update(princessIdle, timestep);
-      //princessIdle.update(timestep);
-      princessIdle.vel.y += gravity * timestep;
+      layer.update(timestep, camera);
+
+      if (princessIdle.pos.x > 300) {
+        camera.pos.x = princessIdle.pos.x - 300;
+      }
+      layer.draw(ctx, camera);
+      
     }
     fixedLoop.start();
   });

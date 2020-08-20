@@ -1,4 +1,4 @@
-export class Vector{
+class Vector{
     constructor(x, y) {
         this.setVector(x, y);
     }
@@ -8,3 +8,5 @@ export class Vector{
         this.y = y;
     }
 }
+
+export default Vector;

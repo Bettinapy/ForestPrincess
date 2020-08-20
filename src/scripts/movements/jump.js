@@ -1,6 +1,6 @@
 class Jump{
     constructor(){
-        this.duration = 0.05;
+        this.duration = 0.1;
         this.exactTime = 0;
         this.velocityY= 500;
         this.velocityX = 20;

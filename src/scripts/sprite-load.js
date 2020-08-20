@@ -18,6 +18,7 @@ export function loadBackgroundTiles(){
             jungleTiles.create("flatGround", 70, 225);
             jungleTiles.create("ground", 354, 210);
             jungleTiles.create("greenGrass", 161, 33);
+            jungleTiles.create('obstacleGrass', 64, 34, 80, 60);
             return jungleTiles;
     });
 }
@@ -26,7 +27,29 @@ export function loadPrincessIdle() {
   return loadImage("src/images/princess/Idle.png").then((princessIdleImg) => {
 
     const princessIdle = new Sprite(princessIdleImg, 30, 30);
-    princessIdle.create("princessIdle", 24, 11);
+    princessIdle.create("idle-1", 24, 11);
+    princessIdle.create("idle-2", 24, 59);
+    princessIdle.create("idle-3", 24, 303);
     return princessIdle;
+  });
+}
+
+export function loadPrincessRun() {
+  return loadImage("src/images/princess/Run.png").then((princessRunImg) => {
+
+    const princessRun = new Sprite(princessRunImg, 30, 30);
+    princessRun.create("run-1", 24, 11);
+    princessRun.create("run-2", 24, 59);
+    princessRun.create("run-3", 24, 153);
+    return princessRun;
+  });
+}
+
+export function loadEnemyIdle() {
+  return loadImage("src/images/enemies/Idle.png").then((enemyIdleImg) => {
+
+    const enemyIdle = new Sprite(enemyIdleImg, 20, 20);
+    enemyIdle.create("idle-1", 29, 12);
+    return enemyIdle;
   });
 }
