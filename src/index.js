@@ -50,10 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // create matrix
     createTileMatrix(level.backgrounds, layer.tiles)
    
-
     // scrolling camera
     const camera = new Camera;
-
 
     // keyboard input
     const input = new KeyboardInput(princessIdle);
@@ -63,7 +61,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const bgMusic = new Sound("src/audios/background.ogg")
     bgMusic.loop();
     bgMusic.play();
-
 
     const fixedLoop = new FixedTimeLoop();
     fixedLoop.update = function update(timestep){

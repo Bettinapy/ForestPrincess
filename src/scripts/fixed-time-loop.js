@@ -19,4 +19,8 @@ export default class FixedTimeLoop{
     start(){
         requestAnimationFrame(this.updateTime)
     }
+
+    stop(){
+        
+    }
 }
