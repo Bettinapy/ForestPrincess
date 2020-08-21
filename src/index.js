@@ -19,7 +19,7 @@ import {createEnemyWalk} from './scripts/enemies';
 import FixedTimeLoop from './scripts/fixed-time-loop';
 import KeyboardInput from './scripts/keyboard-input';
 import Camera from './scripts/camera';
-
+import Sound from './scripts/dashboard/sound';
 
 document.addEventListener("DOMContentLoaded", function () {
   const canvas = document.getElementsByTagName("canvas")[0];
@@ -59,7 +59,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const input = new KeyboardInput(princessIdle);
     input.listenKeys(window);
 
-      
+    // background music
+    const bgMusic = new Sound("src/audios/background.ogg")
+    bgMusic.loop();
+    bgMusic.play();
+
+
     const fixedLoop = new FixedTimeLoop();
     fixedLoop.update = function update(timestep){
 

@@ -1,6 +1,7 @@
 import Matrix from './matrix';
 import TileCollider from '../collision/tile-collider';
 import CharactersCollider from '../collision/characters-collider';
+import Drop from '../collision/drop';
 
 export default class Layer {
     constructor(){
@@ -9,6 +10,7 @@ export default class Layer {
         this.characters = new Set();
         this.charactersCollider = new CharactersCollider(this.characters);
         this.tileCollider = new TileCollider(this.tiles);
+        this.characterDrop = new Drop();
     }
 
     draw(context, camera){
@@ -39,13 +41,18 @@ export default class Layer {
             this.tileCollider.checkCollisionY(character);
                                     
             character.vel.y += gravity * timestep;
+            
+            // Game logic, lose when drop
+            if(character.jump){
+                this.characterDrop.check(character);
+            }
 
         })
         
 
         // Game logic, lose when collide
         this.characters.forEach(character => {
-            this.charactersCollider.check(character)
+            this.charactersCollider.check(character);
         })
     }
 }
