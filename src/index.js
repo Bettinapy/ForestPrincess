@@ -5,16 +5,16 @@ import { loadLevel } from "./scripts/loaders";
 import { 
   createGroundLayer,
   createMainBgLayer, 
-  createPrincessLayer,
+  createCharacterLayer,
   createTileMatrix
 } from './scripts/levels/level-draw';
 import {
   loadBackgroundLayers,
   loadBackgroundTiles,
-  loadPrincessIdle,
 } from "./scripts/sprite-load";
 import Layer from './scripts/levels/layers';
 import {createPrincessIdle} from './scripts/princess';
+import {createEnemyWalk} from './scripts/enemies';
 import FixedTimeLoop from './scripts/fixed-time-loop';
 import KeyboardInput from './scripts/keyboard-input';
 import Camera from './scripts/camera';
@@ -29,15 +29,21 @@ document.addEventListener("DOMContentLoaded", function () {
     loadBackgroundTiles(),
     loadLevel("level-1"),
     createPrincessIdle(),
-  ]).then(([mainBg, jungleTiles, level, princessIdle]) => {
+    createEnemyWalk(),
+  ]).then(([mainBg, jungleTiles, level, princessIdle, enemy]) => {
     
+    enemy.pos.setVector(600,0)
+
+    // push to layers array and draw
     const layer = new Layer();
     layer.layers.push(createMainBgLayer(mainBg));
     layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles));
-    layer.layers.push(createPrincessLayer(princessIdle));
+    layer.layers.push(createCharacterLayer(princessIdle));
+    layer.layers.push(createCharacterLayer(enemy));
     
     // add to characters
-    layer.characters.add(princessIdle)
+    layer.characters.add(princessIdle);
+    layer.characters.add(enemy);
 
     // create matrix
     createTileMatrix(level.backgrounds, layer.tiles)
@@ -51,8 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const input = new KeyboardInput(princessIdle);
     input.listenKeys(window);
 
-    
-    //princessIdle.pos.setVector(1, 270);
       
     const fixedLoop = new FixedTimeLoop();
     fixedLoop.update = function update(timestep){

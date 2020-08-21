@@ -18,15 +18,23 @@ export default class Layer {
     update(timestep, camera){
         const gravity = 2000;
         this.characters.forEach(character => {
- 
-            character.jump.update(character, timestep);
-            character.run.update(character, timestep);
+            // princess
+            if(character.jump){
+                character.jump.update(character, timestep);
+                character.run.update(character, timestep);
+            }
+            
+            // enemy
+            if(character.walk){
+                character.walk.update(character, timestep);
+            }
             
             character.pos.x += character.vel.x * timestep;
             this.tileCollider.checkCollisionX(character);
-            
+
             character.pos.y += character.vel.y * timestep;
             this.tileCollider.checkCollisionY(character);
+                        
             
             character.vel.y += gravity * timestep;
 

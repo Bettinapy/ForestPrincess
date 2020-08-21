@@ -45,11 +45,13 @@ export function loadPrincessRun() {
   });
 }
 
-export function loadEnemyIdle() {
-  return loadImage("src/images/enemies/Idle.png").then((enemyIdleImg) => {
+export function loadEnemyWalk() {
+  return loadImage("src/images/enemies/walk.png").then((enemyWalkImg) => {
 
-    const enemyIdle = new Sprite(enemyIdleImg, 20, 20);
-    enemyIdle.create("idle-1", 29, 12);
-    return enemyIdle;
+    const enemyWalk = new Sprite(enemyWalkImg, 20, 20);
+    enemyWalk.create("walk-1", 29, 14);
+    enemyWalk.create("walk-2", 29, 60);
+    enemyWalk.create("walk-3", 29, 109);
+    return enemyWalk;
   });
 }

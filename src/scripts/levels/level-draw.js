@@ -41,19 +41,19 @@ export function createMainBgLayer(mainBg){
   }
 }
 
-export function createPrincessLayer(princess){
-  const princessBuffer = document.createElement('canvas');
-  princessBuffer.height = 60;
-  princessBuffer.width = 60;
-  const princessBufferContext = princessBuffer.getContext('2d');
-  return function drawPrincessLayer(context, camera){
-    princessBufferContext.clearRect(0, 0, 60, 60);
-    princess.draw(princessBufferContext);
-  
+export function createCharacterLayer(character){
+  const characterBuffer = document.createElement('canvas');
+  characterBuffer.height = 60;
+  characterBuffer.width = 60;
+  const characterBufferContext = characterBuffer.getContext('2d');
+  return function drawCharacterLayer(context, camera){
+    characterBufferContext.clearRect(0, 0, 60, 60);
+    character.draw(characterBufferContext);
+    console.log(character.pos.x, character.pos.y)
     context.drawImage(
-      princessBuffer, 
-      princess.pos.x - camera.pos.x, 
-      princess.pos.y - camera.pos.y
+      characterBuffer, 
+      character.pos.x - camera.pos.x, 
+      character.pos.y - camera.pos.y
       )
     //princess.draw(context)
   }
