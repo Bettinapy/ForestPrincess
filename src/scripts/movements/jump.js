@@ -16,14 +16,11 @@ class Jump{
     }
 
     update(character, timestep){
-        if(this.exactTime > 0){
-     
+        if(this.exactTime > 0){    
             character.vel.y = -this.velocityY;
-            //character.vel.x = this.velocityX;
             this.exactTime -= timestep;
         }
-        // character.pos.x += character.vel.x * timestep;
-        // character.pos.y += character.vel.y * timestep*2;
+
     }
 }
 

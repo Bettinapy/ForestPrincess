@@ -24,6 +24,7 @@ export default class Layer {
             if(character.jump){
                 character.jump.update(character, timestep);
                 character.run.update(character, timestep);
+                character.player.update(timestep);
             }
             
             // enemy

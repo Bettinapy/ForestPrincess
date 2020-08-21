@@ -6,7 +6,7 @@ class TileCollider {
     }
 
     checkCollisionY(character){
-        console.log(character.vel.y)
+      
         let y;
         if (character.vel.y > 0) {
             y = character.pos.y + character.size.y

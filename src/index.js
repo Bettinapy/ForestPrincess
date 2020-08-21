@@ -6,6 +6,7 @@ import {
   createGroundLayer,
   createMainBgLayer, 
   createCharacterLayer,
+  createDashboardLayer,
   createTileMatrix
 } from './scripts/levels/level-draw';
 import {
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles));
     layer.layers.push(createCharacterLayer(princessIdle));
     layer.layers.push(createCharacterLayer(enemy));
+    layer.layers.push(createDashboardLayer(princessIdle))
     
     // add to characters
     layer.characters.add(princessIdle);

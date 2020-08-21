@@ -28,7 +28,6 @@ export function createGroundLayer(backgrounds, sprites){
 }
 
 export function createMainBgLayer(mainBg){
-  const worldW = 24000;
   const mainBgBuffer = document.createElement('canvas');
   mainBgBuffer.height = 390;
   mainBgBuffer.width = 600 * 2 + 50;
@@ -49,7 +48,7 @@ export function createCharacterLayer(character){
   return function drawCharacterLayer(context, camera){
     characterBufferContext.clearRect(0, 0, 60, 60);
     character.draw(characterBufferContext);
-    console.log(character.pos.x, character.pos.y)
+
     context.drawImage(
       characterBuffer, 
       character.pos.x - camera.pos.x, 
@@ -58,6 +57,14 @@ export function createCharacterLayer(character){
     //princess.draw(context)
   }
 }
+
+
+export function createDashboardLayer(character) {
+  return function drawDashboardLayer(context, camera) {
+    character.player.timer.draw(context, 450, 50)
+  }
+}
+
 
 export function createTileMatrix(backgrounds, tiles){
   backgrounds.forEach(background => {
