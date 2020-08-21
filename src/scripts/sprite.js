@@ -9,28 +9,48 @@ class Sprite {
         this.tiles = new Map();
     }
 
-    create(name, x, y){
-        const ele = document.createElement('canvas');
-        ele.height = this.height;
-        ele.width = this.width;
-        ele.getContext('2d').drawImage(
-            this.image,
-            x,
-            y,
-            this.width,
-            this.height,
-            0,0,
-            this.width,
-            this.height
-        );
-        this.tiles.set(name, ele)
+    create(name, x, y, width, height){
+        const oppoEles = [false, true].map(flip => {
+            if(!width) width = this.width;
+            if(!height) height = this.height;
+            const ele = document.createElement('canvas');
+            ele.height = height;
+            ele.width = width;
+            const eleContext = ele.getContext('2d');
+
+            if(flip){
+                // rotate canvas horizontally
+                eleContext.scale(-1,1);
+                // hard coded here  
+                eleContext.translate(-15, 0);
+            }
+            
+            eleContext.drawImage(
+                this.image,
+                x,
+                y,
+                width,
+                height,
+                0,0,
+                width,
+                height
+            );
+
+            return ele;
+        })
+        this.tiles.set(name, oppoEles)
     }
 
-    draw(name, context, x, y, resizeX=1, resizeY=1){
-        debugger
-        const ele = this.tiles.get(name);
-        context.drawImage(ele, x*this.width, y*this.height, this.width*resizeX, this.height*resizeY);        
+    draw(name, context, x, y, resizeX=1, resizeY=1, flip=false){
+        const ele = this.tiles.get(name)[flip ? 1 : 0];
+        context.drawImage(ele, x, y, this.width*resizeX, this.height*resizeY);        
+    }
+
+    drawTile(name, context, x, y, resizeX = 1, resizeY = 1, flip=false) {
+        const ele = this.tiles.get(name)[flip ? 1 : 0];
+    
+        context.drawImage(ele, x*this.width, y*this.height, this.width * resizeX, this.height * resizeY);
     }
 }
 
-module.exports = Sprite;
+export default Sprite;

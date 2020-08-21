@@ -1,41 +1,57 @@
 import Sprite from './sprite';
 import {loadImage} from './loaders';
 
-export function loadBackgroundLayers(ctx){
-    loadImage("src/images/plx-1.png").then((bgLayer1) => {
-      ctx.drawImage(bgLayer1, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-2.png").then((bgLayer2) => {
-      ctx.drawImage(bgLayer2, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-3.png").then((bgLayer3) => {
-      ctx.drawImage(bgLayer3, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-4.png").then((bgLayer4) => {
-      ctx.drawImage(bgLayer4, 0, 0, 600, 400);
-    });
-    loadImage("src/images/plx-5.png").then((bgLayer5) => {
-      ctx.drawImage(bgLayer5, 0, 0, 600, 400);
+export function loadBackgroundLayers(){
+    return loadImage("src/images/main-bg.png").then((mainImg) => {
+      const mainBg = new Sprite(mainImg, 600, 450);
+      mainBg.create("mainBg", 0, 0);
+
+      return mainBg;
     });
 }
 
 export function loadBackgroundTiles(){
     return loadImage("src/images/jungle_tileset.png")
         .then((jungleImg) => {
-            console.log("tiles loaded");
+            
             const jungleTiles = new Sprite(jungleImg, 30, 30);
             jungleTiles.create("flatGround", 70, 225);
             jungleTiles.create("ground", 354, 210);
-            jungleTiles.create("greenGrass", 90, 34)
+            jungleTiles.create("greenGrass", 161, 33);
+            jungleTiles.create('obstacleGrass', 64, 34, 80, 60);
             return jungleTiles;
     });
 }
 
 export function loadPrincessIdle() {
   return loadImage("src/images/princess/Idle.png").then((princessIdleImg) => {
-    console.log("princess loaded");
-    const princessIdle = new Sprite(princessIdleImg, 40, 40);
-    princessIdle.create("princessIdle", 24, 11);
+
+    const princessIdle = new Sprite(princessIdleImg, 30, 30);
+    princessIdle.create("idle-1", 24, 11);
+    princessIdle.create("idle-2", 24, 59);
+    princessIdle.create("idle-3", 24, 303);
     return princessIdle;
+  });
+}
+
+export function loadPrincessRun() {
+  return loadImage("src/images/princess/Run.png").then((princessRunImg) => {
+
+    const princessRun = new Sprite(princessRunImg, 30, 30);
+    princessRun.create("run-1", 24, 11);
+    princessRun.create("run-2", 24, 59);
+    princessRun.create("run-3", 24, 153);
+    return princessRun;
+  });
+}
+
+export function loadEnemyWalk() {
+  return loadImage("src/images/enemies/walk.png").then((enemyWalkImg) => {
+
+    const enemyWalk = new Sprite(enemyWalkImg, 20, 20);
+    enemyWalk.create("walk-1", 29, 14);
+    enemyWalk.create("walk-2", 29, 60);
+    enemyWalk.create("walk-3", 29, 109);
+    return enemyWalk;
   });
 }

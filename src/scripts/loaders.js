@@ -37,10 +37,10 @@ export function loadImage(url) {
 }
 
 export function loadLevel(level) {
-    debugger
+
   return fetch(`src/scripts/levels/${level}.json`)
     .then((response) => {
-        debugger
+    
         return(response.clone().json())
     });
 }
