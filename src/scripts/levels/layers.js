@@ -11,6 +11,7 @@ export default class Layer {
         this.charactersCollider = new CharactersCollider(this.characters);
         this.tileCollider = new TileCollider(this.tiles);
         this.characterDrop = new Drop();
+        this.gameOver = false;
     }
 
     draw(context, camera){
@@ -44,7 +45,10 @@ export default class Layer {
             
             // Game logic, lose when drop
             if(character.jump){
-                this.characterDrop.check(character);
+                if(this.characterDrop.check(character)){
+                    this.gameOver = true;
+                    return;
+                };
             }
 
         })
@@ -52,7 +56,10 @@ export default class Layer {
 
         // Game logic, lose when collide
         this.characters.forEach(character => {
-            this.charactersCollider.check(character);
+            if(this.charactersCollider.check(character)){
+                this.gameOver = true;
+                return;
+            };
         })
     }
 }

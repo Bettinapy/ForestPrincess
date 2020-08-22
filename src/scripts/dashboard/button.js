@@ -1,5 +1,5 @@
 class Button{
-    constructor(text, x, y, width, height, canvas, context){
+    constructor(text, x, y, width, height, canvas, context, game){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -11,6 +11,7 @@ class Button{
         this.context = context;
         this.offsetLeft = this.canvas.offsetLeft;
         this.offsetTop = this.canvas.offsetTop;
+        this.game = game;
         this.draw();
         const buttonBuffer = document.createElement('canvas');
         buttonBuffer.height = 390;
@@ -34,15 +35,12 @@ class Button{
             x: event.clientX - this.offsetLeft,
             y: event.clientY - this.offsetTop
         };
-        console.log(mousePos);
-        console.log(this.x, this.y)
+
         if (mousePos.x > this.x && mousePos.x < (this.x + this.width) && mousePos.y > this.y && mousePos.y < this.y + this.height){
             this.hovered = true;
-            console.log(true)
             this.draw();
         }else{
             this.hovered = false;
-            console.log(false)
             this.draw();         
         }
     }
@@ -54,21 +52,13 @@ class Button{
         };
         if (mousePos.x > this.x && mousePos.x < (this.x + this.width) && mousePos.y > this.y && mousePos.y < this.y + this.height){
             this.clicked = true;
+            console.log('Start Game!')
+            this.handler(this.game);
             
         }else{
             this.clicked = false;
             
         }
-    }
-
-
-    redraw(){
-        if (this.hovered) {
-            this.context.fillStyle = "blue";
-        } else {
-            this.context.fillStyle = "green";
-        }
-        this.context.fillRect(this.x, this.y, this.width, this.height);
     }
 
     draw(){

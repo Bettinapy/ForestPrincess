@@ -20,14 +20,16 @@ import Camera from './camera';
 import {
     drawDashboardBg,
     drawTitle,
-    drawButtons,
+
 }from './dashboard/dashboard-draw';
+import Button from './dashboard/button';
 
 class Game{
     constructor(ctx, canvas){
         this.bgMusic = new Sound("src/audios/background.ogg");
         this.ctx = ctx;
         this.canvas = canvas;
+        this.start = this.start.bind(this);
     }
 
     showMainPage(){
@@ -36,8 +38,14 @@ class Game{
         ]).then(([bg]) => {
             drawDashboardBg(bg, this.ctx);
             drawTitle(this.ctx);
-            drawButtons(this.canvas, this.ctx)
-            
+
+            // draw buttons
+            const game = this;
+            const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
+            startBtn.handler = function(ctx){
+                ctx.start();
+            }
+            startBtn.listenMouse();
         })
     }
 
@@ -78,8 +86,10 @@ class Game{
             const bgMusic = new Sound("src/audios/background.ogg")
             //bgMusic.loop();
             bgMusic.play();
+            
+            const context = this.ctx;
 
-            const fixedLoop = new FixedTimeLoop();
+            const fixedLoop = new FixedTimeLoop(layer.gameOver);
             fixedLoop.update = function update(timestep) {
 
                 layer.update(timestep, camera);
@@ -87,7 +97,7 @@ class Game{
                 if (princessIdle.pos.x > 300) {
                     camera.pos.x = princessIdle.pos.x - 300;
                 }
-                layer.draw(ctx, camera);
+                layer.draw(context, camera);
 
             }
             fixedLoop.start();

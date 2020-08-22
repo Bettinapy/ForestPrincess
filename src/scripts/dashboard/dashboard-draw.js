@@ -1,4 +1,4 @@
-import Button from './button';
+
 
 export function drawDashboardBg(bg, context){
     bg.draw("mainBg", context, 0, 0, 2, 2)
@@ -17,7 +17,3 @@ export function drawTitle(context){
     context.drawImage(titleBuffer, 160, 80);
 }
 
-export function drawButtons(canvas, context){
-    const startBtn = new Button('start',260, 220, 80, 30, canvas, context);
-    startBtn.listenMouse();
-}

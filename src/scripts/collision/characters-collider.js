@@ -9,13 +9,14 @@ class CharactersCollider{
     check(obj){
         this.characters.forEach(character => {
             if(character === obj){
-                return
+                return false
             }
             if(character.boundaries.isCollide(obj.boundaries)){
                 console.log('Collide! GAME OVER')
                 this.sound.play();
                 return true;
             }
+            return false;
         })
     }
 }
