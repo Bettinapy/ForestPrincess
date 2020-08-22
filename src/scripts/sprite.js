@@ -1,5 +1,3 @@
-const HEIGHT = 400;
-const WIDTH = 600;
 class Sprite {
     constructor(image, width, height) {
         this.image = image;
