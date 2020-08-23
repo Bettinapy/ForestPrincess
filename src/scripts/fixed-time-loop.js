@@ -25,7 +25,8 @@ export default class FixedTimeLoop{
                 }else{            
                     accumulated_time = 0;
                     cancelAnimationFrame(this.requestId);
-                    this.requestId = undefined
+                    new_time_stamp = undefined;
+                    this.requestId = undefined;
                 }
         }
     }

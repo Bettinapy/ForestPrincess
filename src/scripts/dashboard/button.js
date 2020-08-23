@@ -1,5 +1,5 @@
 class Button{
-    constructor(text, x, y, width, height, canvas, context, game){
+    constructor(text, x, y, width, height, canvas, game){
         this.x = x;
         this.y = y;
         this.width = width;
@@ -8,15 +8,24 @@ class Button{
         this.hovered = false;
         this.text = text;
         this.canvas = canvas;
-        this.context = context;
         this.offsetLeft = this.canvas.offsetLeft;
         this.offsetTop = this.canvas.offsetTop;
         this.game = game;
         this.buttonBuffer = document.createElement('canvas');
-        this.buttonBuffer.height = this.canvas.height;
-        this.buttonBuffer.width = this.canvas.width;
+        this.buttonBuffer.height = 390;
+        this.buttonBuffer.width = 600;
         this.buttonBufferContext = this.buttonBuffer.getContext('2d');
-        this.draw();
+        const fontSize = 25;
+        this.buttonBufferContext.fillStyle = "white";
+        this.buttonBufferContext.font = fontSize + "px VT323";
+
+        //text position
+        const textSize = this.buttonBufferContext.measureText(this.text);
+        this.textX = this.x + (this.width / 2);
+        this.textY = this.y + (this.height / 2) + fontSize / 3;
+
+        this.buttonBufferContext.textAlign = "center"
+        //this.draw();
         this.hoverHandler = this.hoverHandler.bind(this);
         this.clickHandler = this.clickHandler.bind(this);
     }
@@ -33,6 +42,7 @@ class Button{
     }
 
     hoverHandler(event){
+        event.preventDefault();
         let mousePos = {
             x: event.clientX - this.offsetLeft,
             y: event.clientY - this.offsetTop
@@ -40,24 +50,28 @@ class Button{
 
         if (mousePos.x > this.x && mousePos.x < (this.x + this.width) && mousePos.y > this.y && mousePos.y < this.y + this.height){
             this.hovered = true;
-            this.draw();
+            
         }else{
             this.hovered = false;
-            this.draw();         
+                   
         }
+        this.draw();  
     }
 
     clickHandler(event){
-        let mousePos = {
+        event.preventDefault();
+        const mousePos = {
             x: event.clientX - this.offsetLeft,
             y: event.clientY - this.offsetTop
         };
+
+        const last_click = this.clicked;
+        console.log(last_click)
         if (mousePos.x > this.x && mousePos.x < (this.x + this.width) && mousePos.y > this.y && mousePos.y < this.y + this.height){
-            this.clicked = true;
-            console.log('Start Game!');
-            this.canvas.removeEventListener('mousemove', this.hoverHandler);
-            this.canvas.removeEventListener('click', this.clickHandler);
-            this.handler(this.game);
+            if(!last_click){
+                this.clicked = true;
+                console.log('Start Game!');           
+                this.handler(this.game);}          
             
         }else{
             this.clicked = false;
@@ -65,8 +79,7 @@ class Button{
         }
     }
 
-    draw(){
-
+    draw(context){
         // const buttonBuffer = document.createElement('canvas');
         // buttonBuffer.height = this.canvas.height;
         // buttonBuffer.width = this.canvas.width;
@@ -74,47 +87,47 @@ class Button{
         this.buttonBufferContext.clearRect(0, 0, this.buttonBuffer.width, this.buttonBuffer.height)
        
         const radius = 3;
-        this.buttonBufferContext.beginPath();
-        this.buttonBufferContext.moveTo(this.x + radius, this.y);
-        this.buttonBufferContext.arcTo(this.x + this.width, this.y, this.x + this.width, this.y + this.height, radius);
-        this.buttonBufferContext.arcTo(this.x + this.width, this.y + this.height, this.x, this.y + this.height, radius);
-        this.buttonBufferContext.arcTo(this.x, this.y + this.height, this.x, this.y, radius);
-        this.buttonBufferContext.arcTo(this.x, this.y, this.x + this.width, this.y, radius);
-        this.buttonBufferContext.strokeStyle = "white"
-        this.buttonBufferContext.stroke();
-        if (this.hovered) {
-            this.buttonBufferContext.fillStyle = "#57AF55";
-            this.buttonBufferContext.fill();
-        } else {
-            this.buttonBufferContext.fillStyle = "green";
-            this.buttonBufferContext.fill();
-        }
+        // this.buttonBufferContext.beginPath();
+        // this.buttonBufferContext.moveTo(this.x + radius, this.y);
+        // this.buttonBufferContext.arcTo(this.x + this.width, this.y, this.x + this.width, this.y + this.height, radius);
+        // this.buttonBufferContext.arcTo(this.x + this.width, this.y + this.height, this.x, this.y + this.height, radius);
+        // this.buttonBufferContext.arcTo(this.x, this.y + this.height, this.x, this.y, radius);
+        // this.buttonBufferContext.arcTo(this.x, this.y, this.x + this.width, this.y, radius);
+        // this.buttonBufferContext.strokeStyle = "white"
+        // this.buttonBufferContext.stroke();
+        // if (this.hovered) {
+        //     this.buttonBufferContext.fillStyle = "#57AF55";
+        //     this.buttonBufferContext.fill();
+        // } else {
+        //     this.buttonBufferContext.fillStyle = "green";
+        //     this.buttonBufferContext.fill();
+        // }
         //this.buttonBufferContext.closePath();
         //buttonBufferContext.fillRect(this.x, this.y, this.width, this.height);
 
          
     
-        const fontSize = 25;
-       this.buttonBufferContext.fillStyle = "white";
-        this.buttonBufferContext.font = fontSize + "px VT323";
+    //     const fontSize = 25;
+    //    this.buttonBufferContext.fillStyle = "white";
+    //     this.buttonBufferContext.font = fontSize + "px VT323";
 
-        //text position
-        const textSize = this.buttonBufferContext.measureText(this.text);
-        const textX = this.x + (this.width / 2) ;
-        const textY = this.y + (this.height / 2) + fontSize/3;
+    //     //text position
+    //     const textSize = this.buttonBufferContext.measureText(this.text);
+    //     const textX = this.x + (this.width / 2) ;
+    //     const textY = this.y + (this.height / 2) + fontSize/3;
 
-        this.buttonBufferContext.textAlign = "center"
+    //     this.buttonBufferContext.textAlign = "center"
         //draw the text
-        this.buttonBufferContext.fillText(this.text, textX, textY);
+        this.buttonBufferContext.fillText(this.text, this.textX, this.textY);
         
-        this.context.drawImage(this.buttonBuffer, 0,0)
+        context.drawImage(this.buttonBuffer, 0,0)
     }
 
 
-    listenMouse(){
-        this.canvas.addEventListener('mousemove', this.hoverHandler);
-        this.canvas.addEventListener('click', this.clickHandler);
-    }
+    // listenMouse(){
+    //     this.canvas.addEventListener('mousemove', this.hoverHandler);
+    //     this.canvas.addEventListener('click', this.clickHandler);
+    // }
 }
 
 export default Button;

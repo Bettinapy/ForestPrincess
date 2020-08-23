@@ -1,19 +1,3 @@
-
-export function createTitleLayer(text, x, y, font){
-    const titleBuffer = document.createElement('canvas');
-    titleBuffer.height = 390;
-    titleBuffer.width = 600;
-    const titleBufferContext = titleBuffer.getContext('2d');
-    titleBufferContext.font = "45px " + font;
-    titleBufferContext.fillStyle = "white";
-    titleBufferContext.textAlign = "center";
-    return function drawTitleLayer(context){
-        titleBufferContext.clearRect(0,0,600, 390);
-        titleBufferContext.fillText(text,x,y);
-        context.drawImage(titleBuffer, 0, 0);
-    }
-}
-
 export function createButtonLayer(button) {
     const buttonBuffer = document.createElement('canvas');
     buttonBuffer.height = 390;
@@ -30,4 +14,3 @@ export function createButtonLayer(button) {
         context.drawImage(buttonBuffer, 0, 0)
     }
 }
- 

@@ -14,7 +14,7 @@ export default class Layer {
         this.gameOver = false;
     }
 
-    draw(context, camera){
+    draw(context, camera=0){
         this.layers.forEach(layer => {
             layer(context, camera)
         })

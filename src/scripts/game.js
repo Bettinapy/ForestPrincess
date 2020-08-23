@@ -18,8 +18,8 @@ import FixedTimeLoop from './fixed-time-loop';
 import KeyboardInput from './keyboard-input';
 import Camera from './camera';
 import {
-    drawTitle,
-    drawGameOverTitle
+    createTitleLayer,
+    createButtonLayer
 }from './dashboard/dashboard-draw';
 import Button from './dashboard/button';
 
@@ -29,29 +29,84 @@ class Game{
         this.gameOverMusic = new Sound("src/audios/game-over.mp3");
         this.ctx = ctx;
         this.canvas = canvas;
+        this.offsetLeft = this.canvas.offsetLeft;
+        this.offsetTop = this.canvas.offsetTop;
         this.start = this.start.bind(this);
         this.gameOverView = this.gameOverView.bind(this);
+        this.buttons = new Set();
+        this.bgs = [];
+        //this.showMainPage();
     }
 
     showMainPage(){
+        
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         Promise.all([
             loadBackgroundLayers()
         ]).then(([bg]) => {
-            createMainBgLayer(bg)(this.ctx);
+            const layer = new Layer();
+            layer.layers.push(createMainBgLayer(bg));
+            layer.layers.push(createTitleLayer('Forest', 300, 100, "Bungee Shade"));
+            layer.layers.push(createTitleLayer('Princess', 300, 150, "Bungee Shade"));
+            // // draw titles
+            //createTitleLayer('Forest', 300, 100, "Bungee Shade")(this.ctx);
+            // createTitleLayer('Princess', 300, 150, "Bungee Shade")(this.ctx);
             
-            drawTitle(this.ctx);
+         
             // draw buttons
             const game = this;
-            const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
-            startBtn.handler = function(ctx){
-                ctx.start();
+            // const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
+            // startBtn.handler = function(ctx){
+            //     // window.removeEventListener('mousemove', e => {
+            //     //     startBtn.hoverHandler(e);
+            //     //     quitBtn.hoverHandler(e);
+            //     // })
+            //     // window.removeEventListener('click', e => {
+            //     //     startBtn.clickHandler(e);
+            //     //     quitBtn.clickHandler(e);
+            //     // })
+            //     ctx.start();
+            // }
+            //startBtn.listenMouse();
+            
+            const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas, game);
+            layer.layers.push(createButtonLayer(quitBtn))
+            const context = this.ctx;
+            quitBtn.handler = function (game) {
+                // window.removeEventListener('mousemove', e => {
+                //     startBtn.hoverHandler(e);
+                //     quitBtn.hoverHandler(e);
+                // })
+                //context.clearRect(0, 0, 600, 390)
+                window.removeEventListener('click', e => {
+                    e.preventDefault();
+                    //startBtn.clickHandler(e);
+                    quitBtn.clickHandler(e);
+                })
+                game.showMainPage();
+                return
             }
-            startBtn.listenMouse();
+            // quitBtn.listenMouse();
+            // mouse event
+            // window.addEventListener('mousemove', e=>{
+            //     startBtn.hoverHandler(e);
+            //     quitBtn.hoverHandler(e);
+            // })
+
+            window.addEventListener('click', e => {
+                e.preventDefault();
+                //startBtn.clickHandler(e);
+                quitBtn.clickHandler(e);
+            }, false)
+            //quitBtn.draw(context)
+            layer.draw(context)
+            console.log(layer.layers)
+            
         })
     }
 
     start(){
+        this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
         Promise.all([
             loadBackgroundLayers(),
             loadBackgroundTiles(),
@@ -59,7 +114,6 @@ class Game{
             createPrincessIdle(),
             createEnemyWalk(),
         ]).then(([mainBg, jungleTiles, level, princessIdle, enemy]) => {
-            this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
             const player = princessIdle.player;
             enemy.pos.setVector(600, 0);
 
@@ -121,20 +175,47 @@ class Game{
     gameOverView(){
         this.startMusic.pause();
         this.gameOverMusic.play();
-        drawGameOverTitle(this.ctx);
+        createTitleLayer('Game Over', 300, 100, "VT323")(this.ctx);
         const game = this;
 
         const restartBtn = new Button('restart', 260, 220, 80, 30, this.canvas, this.ctx, game);
         restartBtn.handler = function (ctx) {
+            window.removeEventListener('mousemove', e => {
+                restartBtn.hoverHandler(e);
+                quitBtn.hoverHandler(e);
+            })
+            window.removeEventListener('click', e => {
+                restartBtn.clickHandler(e);
+                quitBtn.clickHandler(e);
+            })
             ctx.start();
         }
-        restartBtn.listenMouse();
+        //restartBtn.listenMouse();
         
         const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas, this.ctx, game);
         quitBtn.handler = function (ctx) {
+            window.removeEventListener('mousemove', e => {
+                restartBtn.hoverHandler(e);
+                quitBtn.hoverHandler(e);
+            })
+            window.removeEventListener('click', e => {
+                restartBtn.clickHandler(e);
+                quitBtn.clickHandler(e);
+            })
             ctx.showMainPage();
         }
-        quitBtn.listenMouse();
+        //quitBtn.listenMouse();
+
+        // mouse event
+        window.addEventListener('mousemove', e => {
+            restartBtn.hoverHandler(e);
+            quitBtn.hoverHandler(e);
+        })
+
+        window.addEventListener('click', e => {
+            restartBtn.clickHandler(e);
+            quitBtn.clickHandler(e);
+        })
     }
 }
 
