@@ -13,10 +13,8 @@ class Button{
         this.offsetTop = this.canvas.offsetTop;
         this.game = game;
         this.draw();
-        const buttonBuffer = document.createElement('canvas');
-        buttonBuffer.height = 390;
-        buttonBuffer.width = 600;
-        this.buttonBufferContext = buttonBuffer.getContext('2d');
+        this.hoverHandler = this.hoverHandler.bind(this);
+        this.clickHandler = this.clickHandler.bind(this);
     }
 
     getMousePos(event){
@@ -52,7 +50,9 @@ class Button{
         };
         if (mousePos.x > this.x && mousePos.x < (this.x + this.width) && mousePos.y > this.y && mousePos.y < this.y + this.height){
             this.clicked = true;
-            console.log('Start Game!')
+            console.log('Start Game!');
+            this.canvas.removeEventListener('mousemove', this.hoverHandler);
+            this.canvas.removeEventListener('click', this.clickHandler);
             this.handler(this.game);
             
         }else{
@@ -67,7 +67,7 @@ class Button{
         buttonBuffer.height = this.canvas.height;
         buttonBuffer.width = this.canvas.width;
         const buttonBufferContext = buttonBuffer.getContext('2d');
-        buttonBufferContext.clearRect(0, 0, buttonBuffer.height, buttonBuffer.width)
+        buttonBufferContext.clearRect(0, 0, buttonBuffer.width, buttonBuffer.height)
        
         const radius = 3;
         buttonBufferContext.beginPath();
@@ -108,8 +108,8 @@ class Button{
 
 
     listenMouse(){
-        this.canvas.addEventListener('mousemove', this.hoverHandler.bind(this));
-        this.canvas.addEventListener('click', this.clickHandler.bind(this));
+        this.canvas.addEventListener('mousemove', this.hoverHandler);
+        this.canvas.addEventListener('click', this.clickHandler);
     }
 }
 

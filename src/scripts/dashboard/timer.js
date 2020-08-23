@@ -7,6 +7,10 @@ class Timer{
         this.time += timestep
     }
 
+    resetTime(){
+        this.time = 0
+    }
+
     draw(context, x, y){
         context.font = "30px VT323";
         context.fillStyle = 'white';

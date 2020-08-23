@@ -46,6 +46,7 @@ export default class Layer {
             // Game logic, lose when drop
             if(character.jump){
                 if(this.characterDrop.check(character)){
+                    character.player.reset();
                     this.gameOver = true;
                     return;
                 };
@@ -57,8 +58,8 @@ export default class Layer {
         // Game logic, lose when collide
         this.characters.forEach(character => {
             if(this.charactersCollider.check(character)){
+                character.player.reset();
                 this.gameOver = true;
-                return;
             };
         })
     }

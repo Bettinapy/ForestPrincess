@@ -20,16 +20,17 @@ import Camera from './camera';
 import {
     drawDashboardBg,
     drawTitle,
-
+    drawGameOverTitle
 }from './dashboard/dashboard-draw';
 import Button from './dashboard/button';
 
 class Game{
     constructor(ctx, canvas){
-        this.bgMusic = new Sound("src/audios/background.ogg");
+        this.startMusic = new Sound("src/audios/background.ogg");
         this.ctx = ctx;
         this.canvas = canvas;
         this.start = this.start.bind(this);
+        this.gameOverView = this.gameOverView.bind(this);
     }
 
     showMainPage(){
@@ -37,8 +38,8 @@ class Game{
             loadBackgroundLayers()
         ]).then(([bg]) => {
             drawDashboardBg(bg, this.ctx);
+            
             drawTitle(this.ctx);
-
             // draw buttons
             const game = this;
             const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
@@ -62,8 +63,12 @@ class Game{
 
             // push to layers array and draw
             const layer = new Layer();
+            
+            // create matrix
+            createTileMatrix(level.backgrounds, layer.tiles)
+
             layer.layers.push(createMainBgLayer(mainBg));
-            layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles));
+            layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles, layer.tiles));
             layer.layers.push(createCharacterLayer(princessIdle));
             layer.layers.push(createCharacterLayer(enemy));
             layer.layers.push(createDashboardLayer(princessIdle))
@@ -72,8 +77,6 @@ class Game{
             layer.characters.add(princessIdle);
             layer.characters.add(enemy);
 
-            // create matrix
-            createTileMatrix(level.backgrounds, layer.tiles)
 
             // scrolling camera
             const camera = new Camera;
@@ -83,25 +86,37 @@ class Game{
             input.listenKeys(window);
 
             // background music
-            const bgMusic = new Sound("src/audios/background.ogg")
-            //bgMusic.loop();
-            bgMusic.play();
+            this.startMusic.loop();
+            this.startMusic.play();
             
+            const game = this;
             const context = this.ctx;
+          
 
-            const fixedLoop = new FixedTimeLoop(layer.gameOver);
+            const fixedLoop = new FixedTimeLoop(1/60);
             fixedLoop.update = function update(timestep) {
+                if(!layer.gameOver){
 
-                layer.update(timestep, camera);
-
-                if (princessIdle.pos.x > 300) {
-                    camera.pos.x = princessIdle.pos.x - 300;
+                    layer.update(timestep, camera);
+    
+                    if (princessIdle.pos.x > 100) {
+                        camera.pos.x = princessIdle.pos.x - 100;
+                    }
+                    layer.draw(context, camera);
+                }else{
+                    
+                    game.gameOverView();
+                    return 'Game Over';
                 }
-                layer.draw(context, camera);
 
             }
             fixedLoop.start();
         });
+    }
+
+    gameOverView(){
+        this.startMusic.pause();
+        drawGameOverTitle(this.ctx);
     }
 }
 

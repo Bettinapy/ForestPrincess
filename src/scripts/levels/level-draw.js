@@ -1,3 +1,5 @@
+import PosConverter from '../collision/pos-converter';
+
 export function drawGround(background, context, sprites) {
 
   background.ranges.forEach(([x1, x2, y1, y2]) => {
@@ -10,20 +12,37 @@ export function drawGround(background, context, sprites) {
   });
 }
 
-export function createGroundLayer(backgrounds, sprites){
-  const worldW = 24000;
+export function createGroundLayer(backgrounds, sprites, tilesMatrix){
+  const tilesConvert = new PosConverter(tilesMatrix);
 
   const groundBuffer = document.createElement('canvas');
   groundBuffer.height = 390;
-  groundBuffer.width = worldW;
+  groundBuffer.width = 600+600;
+  const groundBufferContext = groundBuffer.getContext('2d');
 
-  backgrounds.forEach(bg => {
-    drawGround(bg, groundBuffer.getContext('2d'), sprites)
-  })
+  function redraw(start, end){
+    groundBufferContext.clearRect(0,0,groundBuffer.width,groundBuffer.height);
+    for(let x=start; x<=end; x++){
+      const col = tilesMatrix.table[x];
+      if(col){
+        col.forEach((tile, y) => {
+          console.log(x, y)
+          sprites.drawTile(tile.name, groundBufferContext, x-start, y)
+        })
+      }
+    }
+    // console.log(start, end)
+    // backgrounds.forEach(bg => {
+    //   drawGround(bg, groundBuffer.getContext('2d'), sprites)
+    // })
+  } 
 
   return function drawGroundLayer(context, camera){
-
-    context.drawImage(groundBuffer, -camera.pos.x, 0);
+    const cameraWidth = tilesConvert.posToIndex(camera.size.x);
+    const drawFrom = tilesConvert.posToIndex(camera.pos.x);
+    const drawTo = cameraWidth + drawFrom;
+    redraw(drawFrom, drawTo)
+    context.drawImage(groundBuffer, Math.floor(-camera.pos.x % 30), Math.floor(-camera.pos.y));
   }
 }
 
