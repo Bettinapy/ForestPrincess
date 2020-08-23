@@ -35,6 +35,7 @@ class Game{
     }
 
     showMainPage(){
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         Promise.all([
             loadBackgroundLayers()
         ]).then(([bg]) => {
@@ -59,7 +60,7 @@ class Game{
             createPrincessIdle(),
             createEnemyWalk(),
         ]).then(([mainBg, jungleTiles, level, princessIdle, enemy]) => {
-
+            this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
             const player = princessIdle.player;
             enemy.pos.setVector(600, 0);
 
@@ -92,7 +93,7 @@ class Game{
             
             const game = this;
             const context = this.ctx;
-        
+            const canvas = this.canvas;
             const fixedLoop = new FixedTimeLoop(1/60);
             fixedLoop.update = function update(timestep) {
                 if(!layer.gameOver){
@@ -104,11 +105,12 @@ class Game{
                     }
                     layer.draw(context, camera);
                 }else{
-                    layer.layers = [];
-                    layer.characters = {};
+                    layer.layers = null;
+                    layer.characters = null;
                     princessIdle.player.reset();
                     princessIdle.player.timer.resetTime();
                     game.gameOverView();
+                     
                     return 'Game Over';
                 }
 
