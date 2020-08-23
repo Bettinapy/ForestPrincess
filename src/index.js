@@ -10,15 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const game = new Game(ctx, canvas);
   game.showMainPage();
-  // keyboard input to start the game: press 'r'
-  window.addEventListener('keydown', function(event){
-    event.preventDefault();
-    if(event.keyCode === 82){
-      game.start()
-    }
-
-  })
-
 
 
 });

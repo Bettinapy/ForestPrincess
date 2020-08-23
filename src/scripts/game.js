@@ -174,7 +174,7 @@ class Game{
         const game = this;
         const context = this.ctx;
         
-        const restartBtn = new Button('restart', 260, 220, 100, 30, this.canvas);
+        const restartBtn = new Button('start', 260, 220, 80, 30, this.canvas);
         const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
 
         function hover(e) {
