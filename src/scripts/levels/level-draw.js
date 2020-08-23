@@ -45,12 +45,13 @@ export function createGroundLayer(sprites, tilesMatrix){
 export function createMainBgLayer(mainBg){
   const mainBgBuffer = document.createElement('canvas');
   mainBgBuffer.height = 390;
-  mainBgBuffer.width = 600 * 2 + 50;
+  mainBgBuffer.width = 600 + 50;
   const mainBgBufferContext = mainBgBuffer.getContext('2d');
   
-  return function drawMainBgLayer(context, camera){
-
-    mainBg.draw("mainBg", context, 0, 0, 2, 2);
+  return function drawMainBgLayer(context){
+    mainBgBufferContext.clearRect(0,0,mainBgBuffer.width,mainBgBuffer.height);
+    mainBg.draw("mainBg", mainBgBufferContext, 0, 0, 2, 2);
+    context.drawImage(mainBgBuffer, 0, 0)
 
   }
 }

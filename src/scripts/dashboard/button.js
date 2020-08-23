@@ -12,6 +12,10 @@ class Button{
         this.offsetLeft = this.canvas.offsetLeft;
         this.offsetTop = this.canvas.offsetTop;
         this.game = game;
+        this.buttonBuffer = document.createElement('canvas');
+        this.buttonBuffer.height = this.canvas.height;
+        this.buttonBuffer.width = this.canvas.width;
+        this.buttonBufferContext = this.buttonBuffer.getContext('2d');
         this.draw();
         this.hoverHandler = this.hoverHandler.bind(this);
         this.clickHandler = this.clickHandler.bind(this);
@@ -63,47 +67,47 @@ class Button{
 
     draw(){
 
-        const buttonBuffer = document.createElement('canvas');
-        buttonBuffer.height = this.canvas.height;
-        buttonBuffer.width = this.canvas.width;
-        const buttonBufferContext = buttonBuffer.getContext('2d');
-        buttonBufferContext.clearRect(0, 0, buttonBuffer.width, buttonBuffer.height)
+        // const buttonBuffer = document.createElement('canvas');
+        // buttonBuffer.height = this.canvas.height;
+        // buttonBuffer.width = this.canvas.width;
+        // const buttonBufferContext = buttonBuffer.getContext('2d');
+        this.buttonBufferContext.clearRect(0, 0, this.buttonBuffer.width, this.buttonBuffer.height)
        
         const radius = 3;
-        buttonBufferContext.beginPath();
-        buttonBufferContext.moveTo(this.x + radius, this.y);
-        buttonBufferContext.arcTo(this.x + this.width, this.y, this.x + this.width, this.y + this.height, radius);
-        buttonBufferContext.arcTo(this.x + this.width, this.y + this.height, this.x, this.y + this.height, radius);
-        buttonBufferContext.arcTo(this.x, this.y + this.height, this.x, this.y, radius);
-        buttonBufferContext.arcTo(this.x, this.y, this.x + this.width, this.y, radius);
-        buttonBufferContext.closePath();
-        //buttonBufferContext.fillRect(this.x, this.y, this.width, this.height);
-        buttonBufferContext.strokeStyle = "white"
-        buttonBufferContext.stroke();
-
+        this.buttonBufferContext.beginPath();
+        this.buttonBufferContext.moveTo(this.x + radius, this.y);
+        this.buttonBufferContext.arcTo(this.x + this.width, this.y, this.x + this.width, this.y + this.height, radius);
+        this.buttonBufferContext.arcTo(this.x + this.width, this.y + this.height, this.x, this.y + this.height, radius);
+        this.buttonBufferContext.arcTo(this.x, this.y + this.height, this.x, this.y, radius);
+        this.buttonBufferContext.arcTo(this.x, this.y, this.x + this.width, this.y, radius);
+        this.buttonBufferContext.strokeStyle = "white"
+        this.buttonBufferContext.stroke();
         if (this.hovered) {
-            buttonBufferContext.fillStyle = "#57AF55";
-            buttonBufferContext.fill();
+            this.buttonBufferContext.fillStyle = "#57AF55";
+            this.buttonBufferContext.fill();
         } else {
-            buttonBufferContext.fillStyle = "green";
-            buttonBufferContext.fill();
+            this.buttonBufferContext.fillStyle = "green";
+            this.buttonBufferContext.fill();
         }
+        //this.buttonBufferContext.closePath();
+        //buttonBufferContext.fillRect(this.x, this.y, this.width, this.height);
+
          
     
         const fontSize = 25;
-        buttonBufferContext.fillStyle = "white";
-        buttonBufferContext.font = fontSize + "px VT323";
+       this.buttonBufferContext.fillStyle = "white";
+        this.buttonBufferContext.font = fontSize + "px VT323";
 
         //text position
-        const textSize = buttonBufferContext.measureText(this.text);
+        const textSize = this.buttonBufferContext.measureText(this.text);
         const textX = this.x + (this.width / 2) ;
         const textY = this.y + (this.height / 2) + fontSize/3;
 
-        buttonBufferContext.textAlign = "center"
+        this.buttonBufferContext.textAlign = "center"
         //draw the text
-        buttonBufferContext.fillText(this.text, textX, textY);
+        this.buttonBufferContext.fillText(this.text, textX, textY);
         
-        this.context.drawImage(buttonBuffer, 0,0)
+        this.context.drawImage(this.buttonBuffer, 0,0)
     }
 
 

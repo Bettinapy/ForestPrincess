@@ -18,7 +18,6 @@ import FixedTimeLoop from './fixed-time-loop';
 import KeyboardInput from './keyboard-input';
 import Camera from './camera';
 import {
-    drawDashboardBg,
     drawTitle,
     drawGameOverTitle
 }from './dashboard/dashboard-draw';
@@ -39,7 +38,7 @@ class Game{
         Promise.all([
             loadBackgroundLayers()
         ]).then(([bg]) => {
-            drawDashboardBg(bg, this.ctx);
+            createMainBgLayer(bg)(this.ctx);
             
             drawTitle(this.ctx);
             // draw buttons

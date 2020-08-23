@@ -1,10 +1,9 @@
 
-
-export function drawDashboardBg(bg, context){
-    bg.draw("mainBg", context, 0, 0, 2, 2)
-}
-
 export function drawTitle(context){
+    const titleBuffer = document.createElement('canvas');
+    titleBuffer.height = 60;
+    titleBuffer.width = 60;
+    const titleBufferContext = titleBuffer.getContext('2d');
     context.font = "45px Bungee Shade";
     context.fillStyle = "white";
     context.textAlign = "center";
