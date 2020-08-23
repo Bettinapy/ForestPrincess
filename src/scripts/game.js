@@ -48,59 +48,51 @@ class Game{
             layer.layers.push(createMainBgLayer(bg));
             layer.layers.push(createTitleLayer('Forest', 300, 100, "Bungee Shade"));
             layer.layers.push(createTitleLayer('Princess', 300, 150, "Bungee Shade"));
-            // // draw titles
-            //createTitleLayer('Forest', 300, 100, "Bungee Shade")(this.ctx);
-            // createTitleLayer('Princess', 300, 150, "Bungee Shade")(this.ctx);
-            
-         
-            // draw buttons
-            const game = this;
-            // const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
-            // startBtn.handler = function(ctx){
-            //     // window.removeEventListener('mousemove', e => {
-            //     //     startBtn.hoverHandler(e);
-            //     //     quitBtn.hoverHandler(e);
-            //     // })
-            //     // window.removeEventListener('click', e => {
-            //     //     startBtn.clickHandler(e);
-            //     //     quitBtn.clickHandler(e);
-            //     // })
-            //     ctx.start();
-            // }
-            //startBtn.listenMouse();
-            
-            const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas, game);
-            layer.layers.push(createButtonLayer(quitBtn))
+                              
             const context = this.ctx;
-            quitBtn.handler = function (game) {
-                // window.removeEventListener('mousemove', e => {
-                //     startBtn.hoverHandler(e);
-                //     quitBtn.hoverHandler(e);
-                // })
-                //context.clearRect(0, 0, 600, 390)
-                window.removeEventListener('click', e => {
-                    e.preventDefault();
-                    //startBtn.clickHandler(e);
-                    quitBtn.clickHandler(e);
-                })
+            const game = this;
+            
+            const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
+            const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
+
+            function hover(e){
+                e.preventDefault();
+                startBtn.hoverHandler(e, context);
+                quitBtn.hoverHandler(e, context);
+            }
+
+            function click(e){
+                e.preventDefault();
+                startBtn.clickHandler(e, context);
+                quitBtn.clickHandler(e, context);
+            }
+
+            window.addEventListener('mousemove', hover, true)
+            window.addEventListener('click', click, true)
+            
+            startBtn.handler = function(){
+                window.removeEventListener('mousemove', hover, true)
+                window.removeEventListener('click', click, true)
+                layer.layers = [];
+                game.start();
+                return;
+            }
+            
+            quitBtn.handler = function () {
+                window.removeEventListener('mousemove', hover, true)
+                window.removeEventListener('click', click, true)
+                layer.layers = [];
                 game.showMainPage();
                 return
             }
-            // quitBtn.listenMouse();
-            // mouse event
-            // window.addEventListener('mousemove', e=>{
-            //     startBtn.hoverHandler(e);
-            //     quitBtn.hoverHandler(e);
-            // })
+            
+            layer.layers.push(createButtonLayer(startBtn))
+            layer.layers.push(createButtonLayer(quitBtn))
 
-            window.addEventListener('click', e => {
-                e.preventDefault();
-                //startBtn.clickHandler(e);
-                quitBtn.clickHandler(e);
-            }, false)
-            //quitBtn.draw(context)
+
+            // mouse events
+  
             layer.draw(context)
-            console.log(layer.layers)
             
         })
     }
@@ -175,47 +167,54 @@ class Game{
     gameOverView(){
         this.startMusic.pause();
         this.gameOverMusic.play();
-        createTitleLayer('Game Over', 300, 100, "VT323")(this.ctx);
-        const game = this;
+        const layer = new Layer();
 
-        const restartBtn = new Button('restart', 260, 220, 80, 30, this.canvas, this.ctx, game);
-        restartBtn.handler = function (ctx) {
-            window.removeEventListener('mousemove', e => {
-                restartBtn.hoverHandler(e);
-                quitBtn.hoverHandler(e);
-            })
-            window.removeEventListener('click', e => {
-                restartBtn.clickHandler(e);
-                quitBtn.clickHandler(e);
-            })
-            ctx.start();
-        }
-        //restartBtn.listenMouse();
+        layer.layers.push(createTitleLayer('Game Over', 300, 100, "VT323"))
+        // createTitleLayer('Game Over', 300, 100, "VT323")(this.ctx);
+        const game = this;
+        const context = this.ctx;
         
-        const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas, this.ctx, game);
-        quitBtn.handler = function (ctx) {
-            window.removeEventListener('mousemove', e => {
-                restartBtn.hoverHandler(e);
-                quitBtn.hoverHandler(e);
-            })
-            window.removeEventListener('click', e => {
-                restartBtn.clickHandler(e);
-                quitBtn.clickHandler(e);
-            })
-            ctx.showMainPage();
+        const restartBtn = new Button('restart', 260, 220, 100, 30, this.canvas);
+        const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
+
+        function hover(e) {
+            e.preventDefault();
+            restartBtn.hoverHandler(e, context);
+            quitBtn.hoverHandler(e, context);
         }
-        //quitBtn.listenMouse();
+
+        function click(e) {
+            e.preventDefault();
+            restartBtn.clickHandler(e, context);
+            quitBtn.clickHandler(e, context);
+        }
 
         // mouse event
-        window.addEventListener('mousemove', e => {
-            restartBtn.hoverHandler(e);
-            quitBtn.hoverHandler(e);
-        })
+        window.addEventListener('mousemove', hover, true)
+        window.addEventListener('click', click, true)
 
-        window.addEventListener('click', e => {
-            restartBtn.clickHandler(e);
-            quitBtn.clickHandler(e);
-        })
+        restartBtn.handler = function () {
+            window.removeEventListener('mousemove', hover, true)
+            window.removeEventListener('click', click, true)
+            layer.layers = [];
+            game.start();
+            return
+        }
+
+        
+        quitBtn.handler = function () {
+            window.removeEventListener('mousemove', hover, true)
+            window.removeEventListener('click', click, true)
+            layer.layers = [];
+            return game.showMainPage();
+            
+        }
+
+        layer.layers.push(createButtonLayer(restartBtn))
+        layer.layers.push(createButtonLayer(quitBtn))
+
+
+        layer.draw(context)
     }
 }
 
