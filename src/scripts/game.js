@@ -27,6 +27,7 @@ import Button from './dashboard/button';
 class Game{
     constructor(ctx, canvas){
         this.startMusic = new Sound("src/audios/background.ogg");
+        this.gameOverMusic = new Sound("src/audios/game-over.mp3");
         this.ctx = ctx;
         this.canvas = canvas;
         this.start = this.start.bind(this);
@@ -59,7 +60,8 @@ class Game{
             createEnemyWalk(),
         ]).then(([mainBg, jungleTiles, level, princessIdle, enemy]) => {
 
-            enemy.pos.setVector(600, 0)
+            const player = princessIdle.player;
+            enemy.pos.setVector(600, 0);
 
             // push to layers array and draw
             const layer = new Layer();
@@ -68,15 +70,14 @@ class Game{
             createTileMatrix(level.backgrounds, layer.tiles)
 
             layer.layers.push(createMainBgLayer(mainBg));
-            layer.layers.push(createGroundLayer(level.backgrounds, jungleTiles, layer.tiles));
+            layer.layers.push(createGroundLayer(jungleTiles, layer.tiles));
             layer.layers.push(createCharacterLayer(princessIdle));
             layer.layers.push(createCharacterLayer(enemy));
-            layer.layers.push(createDashboardLayer(princessIdle))
+            layer.layers.push(createDashboardLayer(player))
 
             // add to characters
             layer.characters.add(princessIdle);
             layer.characters.add(enemy);
-
 
             // scrolling camera
             const camera = new Camera;
@@ -91,8 +92,7 @@ class Game{
             
             const game = this;
             const context = this.ctx;
-          
-
+        
             const fixedLoop = new FixedTimeLoop(1/60);
             fixedLoop.update = function update(timestep) {
                 if(!layer.gameOver){
@@ -104,7 +104,10 @@ class Game{
                     }
                     layer.draw(context, camera);
                 }else{
-                    
+                    layer.layers = [];
+                    layer.characters = {};
+                    princessIdle.player.reset();
+                    princessIdle.player.timer.resetTime();
                     game.gameOverView();
                     return 'Game Over';
                 }
@@ -116,7 +119,21 @@ class Game{
 
     gameOverView(){
         this.startMusic.pause();
+        this.gameOverMusic.play();
         drawGameOverTitle(this.ctx);
+        const game = this;
+
+        const restartBtn = new Button('restart', 260, 220, 80, 30, this.canvas, this.ctx, game);
+        restartBtn.handler = function (ctx) {
+            ctx.start();
+        }
+        restartBtn.listenMouse();
+        
+        const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas, this.ctx, game);
+        quitBtn.handler = function (ctx) {
+            ctx.showMainPage();
+        }
+        quitBtn.listenMouse();
     }
 }
 

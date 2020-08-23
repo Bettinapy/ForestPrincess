@@ -1,12 +1,15 @@
 export default class FixedTimeLoop{
     constructor(timestep = 1/60){
         let accumulated_time = 0;
+        let new_time_stamp;
         let old_time_stamp = 0;
         this.requestId = undefined;
         this.gameOver = false;
-        this.updateTime = (new_time_stamp) => {
-
-            accumulated_time += (new_time_stamp - old_time_stamp)/1000;
+        this.updateTime = (timestamp) => {
+            if(new_time_stamp === undefined){
+                new_time_stamp = timestamp;
+            }
+            accumulated_time += (timestamp - new_time_stamp)/1000;
            
             // only update when accumulated time > timestep
 
@@ -16,13 +19,13 @@ export default class FixedTimeLoop{
                     };
                     accumulated_time -= timestep;
                 }
-                old_time_stamp = new_time_stamp;
+                new_time_stamp = timestamp;
                 if(!this.gameOver){
-                    this.requestId = this.start();
-                }else{
-            
-                    old_time_stamp = 0;
-                    this.stop();
+                    this.start();
+                }else{            
+                    accumulated_time = 0;
+                    cancelAnimationFrame(this.requestId);
+                    this.requestId = undefined
                 }
         }
     }

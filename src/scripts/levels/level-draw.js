@@ -12,7 +12,7 @@ export function drawGround(background, context, sprites) {
   });
 }
 
-export function createGroundLayer(backgrounds, sprites, tilesMatrix){
+export function createGroundLayer(sprites, tilesMatrix){
   const tilesConvert = new PosConverter(tilesMatrix);
 
   const groundBuffer = document.createElement('canvas');
@@ -26,15 +26,11 @@ export function createGroundLayer(backgrounds, sprites, tilesMatrix){
       const col = tilesMatrix.table[x];
       if(col){
         col.forEach((tile, y) => {
-          console.log(x, y)
           sprites.drawTile(tile.name, groundBufferContext, x-start, y)
         })
       }
     }
-    // console.log(start, end)
-    // backgrounds.forEach(bg => {
-    //   drawGround(bg, groundBuffer.getContext('2d'), sprites)
-    // })
+    
   } 
 
   return function drawGroundLayer(context, camera){
@@ -78,9 +74,10 @@ export function createCharacterLayer(character){
 }
 
 
-export function createDashboardLayer(character) {
+export function createDashboardLayer(player) {
   return function drawDashboardLayer(context, camera) {
-    character.player.timer.draw(context, 450, 50)
+
+    player.timer.draw(context, 450, 50)
   }
 }
 

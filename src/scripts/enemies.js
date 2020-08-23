@@ -8,7 +8,7 @@ export function createEnemyWalk() {
     ]
     ).then(([enemyWalk]) => {
         const enemy = new MovingObject();
-        enemy.size.setVector(60, 60)
+        enemy.size.setVector(55, 55)
 
         enemy.walk = new EnemyWalk();
 
