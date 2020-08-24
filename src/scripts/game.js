@@ -27,6 +27,8 @@ class Game{
     constructor(ctx, canvas){
         this.startMusic = new Sound("src/audios/background.ogg");
         this.gameOverMusic = new Sound("src/audios/game-over.mp3");
+        this.buttonMusic = new Sound("src/audios/button.ogg");
+        this.playerMusic = new Sound("src/audios/player-music.mp3")
         this.ctx = ctx;
         this.canvas = canvas;
         this.offsetLeft = this.canvas.offsetLeft;
@@ -54,6 +56,10 @@ class Game{
             const context = this.ctx;
             const game = this;
             
+            // background music
+            this.startMusic.loop();
+            //this.startMusic.play();
+
             const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
             //const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
 
@@ -76,6 +82,7 @@ class Game{
                 window.removeEventListener('mousemove', hover, true)
                 window.removeEventListener('click', click, true)
                 layer.layers = [];
+                game.buttonMusic.play();
                 game.start();
                 return;
             }
@@ -100,7 +107,8 @@ class Game{
     }
 
     start(){
-        this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height)
+        this.ctx.clearRect(0,0,this.canvas.width, this.canvas.height);
+        this.startMusic.pause();
         Promise.all([
             loadBackgroundLayers(),
             loadBackgroundTiles(),
@@ -135,8 +143,9 @@ class Game{
             input.listenKeys(window);
 
             // background music
-            this.startMusic.loop();
-            this.startMusic.play();
+            this.playerMusic.setVolumne(0.8);
+            this.playerMusic.loop();
+            this.playerMusic.play();
             
             const game = this;
             const context = this.ctx;
@@ -167,7 +176,7 @@ class Game{
     }
 
     gameOverView(){
-        this.startMusic.pause();
+        this.playerMusic.pause();
         this.gameOverMusic.play();
         const layer = new Layer();
 
@@ -199,6 +208,7 @@ class Game{
             window.removeEventListener('mousemove', hover, true)
             window.removeEventListener('click', click, true)
             layer.layers = [];
+            game.buttonMusic.play();
             game.start();
             return
         }
@@ -208,6 +218,7 @@ class Game{
             window.removeEventListener('mousemove', hover, true)
             window.removeEventListener('click', click, true)
             layer.layers = [];
+            game.buttonMusic.play();
             return game.showMainPage();
             
         }
