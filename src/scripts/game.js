@@ -48,23 +48,25 @@ class Game{
             layer.layers.push(createMainBgLayer(bg));
             layer.layers.push(createTitleLayer('Forest', 300, 100, "Bungee Shade"));
             layer.layers.push(createTitleLayer('Princess', 300, 150, "Bungee Shade"));
+            layer.layers.push(createTitleLayer('-- Press SPACE to jump --', 300, 290, "VT323", 20));
+            layer.layers.push(createTitleLayer('-- Press -> to move --', 300, 310, "VT323", 20));
                               
             const context = this.ctx;
             const game = this;
             
             const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
-            const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
+            //const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
 
             function hover(e){
                 e.preventDefault();
                 startBtn.hoverHandler(e, context);
-                quitBtn.hoverHandler(e, context);
+                //quitBtn.hoverHandler(e, context);
             }
 
             function click(e){
                 e.preventDefault();
                 startBtn.clickHandler(e, context);
-                quitBtn.clickHandler(e, context);
+                //quitBtn.clickHandler(e, context);
             }
 
             window.addEventListener('mousemove', hover, true)
@@ -78,16 +80,16 @@ class Game{
                 return;
             }
             
-            quitBtn.handler = function () {
-                window.removeEventListener('mousemove', hover, true)
-                window.removeEventListener('click', click, true)
-                layer.layers = [];
-                game.showMainPage();
-                return
-            }
+            // quitBtn.handler = function () {
+            //     window.removeEventListener('mousemove', hover, true)
+            //     window.removeEventListener('click', click, true)
+            //     layer.layers = [];
+            //     game.showMainPage();
+            //     return
+            // }
             
             layer.layers.push(createButtonLayer(startBtn))
-            layer.layers.push(createButtonLayer(quitBtn))
+            //layer.layers.push(createButtonLayer(quitBtn))
 
 
             // mouse events

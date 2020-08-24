@@ -1,10 +1,10 @@
 
-export function createTitleLayer(text, x, y, font){
+export function createTitleLayer(text, x, y, font, size=45){
     const titleBuffer = document.createElement('canvas');
     titleBuffer.height = 390;
     titleBuffer.width = 600;
     const titleBufferContext = titleBuffer.getContext('2d');
-    titleBufferContext.font = "45px " + font;
+    titleBufferContext.font = size + "px " + font;
     titleBufferContext.fillStyle = "white";
     titleBufferContext.textAlign = "center";
     return function drawTitleLayer(context){
