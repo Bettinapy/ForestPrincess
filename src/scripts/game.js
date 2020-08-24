@@ -58,8 +58,9 @@ class Game{
             const canvas = this.canvas;
 
             // background music
+            this.gameOverMusic.pause();
             this.startMusic.loop();
-            //this.startMusic.play();
+            this.startMusic.play();
 
             const startBtn = new Button('start', 260, 220, 80, 30, this.canvas, this.ctx, game);
             //const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
@@ -115,10 +116,10 @@ class Game{
             loadBackgroundTiles(),
             loadLevel("level-1"),
             createPrincessIdle(),
-            createEnemyWalk(),
-        ]).then(([mainBg, jungleTiles, level, princessIdle, enemy]) => {
+            //createEnemyWalk(),
+        ]).then(([mainBg, jungleTiles, level, princessIdle]) => {
             const player = princessIdle.player;
-            enemy.pos.setVector(600, 0);
+            //enemy.pos.setVector(600, 0);
 
             // push to layers array and draw
             const layer = new Layer();
@@ -129,12 +130,20 @@ class Game{
             layer.layers.push(createMainBgLayer(mainBg));
             layer.layers.push(createGroundLayer(jungleTiles, layer.tiles));
             layer.layers.push(createCharacterLayer(princessIdle));
-            layer.layers.push(createCharacterLayer(enemy));
+            //layer.layers.push(createCharacterLayer(enemy));
             layer.layers.push(createDashboardLayer(player))
 
             // add to characters
-            layer.characters.add(princessIdle);
-            layer.characters.add(enemy);
+            let enemy
+            layer.characters.push(princessIdle);
+            level.enemies.forEach(({name, pos: [x,y]}) => {
+                createEnemyWalk().then(enemy => {
+                    enemy.pos.setVector(x,y);
+                    layer.characters.push(enemy)
+                    layer.layers.push(createCharacterLayer(enemy))
+                });
+            }) 
+            //layer.characters.add(enemy);
 
             // scrolling camera
             const camera = new Camera;
@@ -144,6 +153,8 @@ class Game{
             input.listenKeys(window);
 
             // background music
+            this.startMusic.pause();
+            this.gameOverMusic.pause();
             this.playerMusic.setVolumne(0.8);
             this.playerMusic.loop();
             this.playerMusic.play();
@@ -156,7 +167,7 @@ class Game{
                 if(!layer.gameOver){
 
                     layer.update(timestep, camera);
-    
+                    
                     if (princessIdle.pos.x > 100) {
                         camera.pos.x = princessIdle.pos.x - 100;
                     }

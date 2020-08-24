@@ -7,7 +7,7 @@ export default class Layer {
     constructor(){
         this.layers = [];
         this.tiles = new Matrix();
-        this.characters = new Set();
+        this.characters = [];
         this.charactersCollider = new CharactersCollider(this.characters);
         this.tileCollider = new TileCollider(this.tiles);
         this.characterDrop = new Drop();
