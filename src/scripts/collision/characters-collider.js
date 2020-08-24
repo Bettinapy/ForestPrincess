@@ -14,7 +14,7 @@ class CharactersCollider{
                 return;
             }
             if(character.boundaries.isCollide(obj.boundaries)){
-                console.log('Collide! GAME OVER')
+                //console.log('Collide! GAME OVER')
                 this.sound.play();
                 result = true;
             }

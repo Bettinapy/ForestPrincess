@@ -55,7 +55,7 @@ class Button{
             context.clearRect(0, 0, 600,390)
             if(!last_click){
                 this.clicked = true;
-                console.log('Start Game!');           
+                //console.log('Start Game!');           
                 this.handler();}          
             
         }else{
