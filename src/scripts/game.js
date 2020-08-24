@@ -55,7 +55,8 @@ class Game{
                               
             const context = this.ctx;
             const game = this;
-            
+            const canvas = this.canvas;
+
             // background music
             this.startMusic.loop();
             //this.startMusic.play();
@@ -75,12 +76,12 @@ class Game{
                 //quitBtn.clickHandler(e, context);
             }
 
-            window.addEventListener('mousemove', hover, true)
-            window.addEventListener('click', click, true)
+            canvas.addEventListener('mousemove', hover, true)
+            canvas.addEventListener('click', click, true)
             
             startBtn.handler = function(){
-                window.removeEventListener('mousemove', hover, true)
-                window.removeEventListener('click', click, true)
+                canvas.removeEventListener('mousemove', hover, true)
+                canvas.removeEventListener('click', click, true)
                 layer.layers = [];
                 game.buttonMusic.play();
                 game.start();
@@ -88,8 +89,8 @@ class Game{
             }
             
             // quitBtn.handler = function () {
-            //     window.removeEventListener('mousemove', hover, true)
-            //     window.removeEventListener('click', click, true)
+            //     canvas.removeEventListener('mousemove', hover, true)
+            //     canvas.removeEventListener('click', click, true)
             //     layer.layers = [];
             //     game.showMainPage();
             //     return
@@ -184,7 +185,8 @@ class Game{
         // createTitleLayer('Game Over', 300, 100, "VT323")(this.ctx);
         const game = this;
         const context = this.ctx;
-        
+        const canvas = this.canvas;
+
         const restartBtn = new Button('start', 260, 220, 80, 30, this.canvas);
         const quitBtn = new Button('quit', 260, 260, 80, 30, this.canvas);
 
@@ -201,12 +203,12 @@ class Game{
         }
 
         // mouse event
-        window.addEventListener('mousemove', hover, true)
-        window.addEventListener('click', click, true)
+        canvas.addEventListener('mousemove', hover, true)
+        canvas.addEventListener('click', click, true)
 
         restartBtn.handler = function () {
-            window.removeEventListener('mousemove', hover, true)
-            window.removeEventListener('click', click, true)
+            canvas.removeEventListener('mousemove', hover, true)
+            canvas.removeEventListener('click', click, true)
             layer.layers = [];
             game.buttonMusic.play();
             game.start();
@@ -215,8 +217,8 @@ class Game{
 
         
         quitBtn.handler = function () {
-            window.removeEventListener('mousemove', hover, true)
-            window.removeEventListener('click', click, true)
+            canvas.removeEventListener('mousemove', hover, true)
+            canvas.removeEventListener('click', click, true)
             layer.layers = [];
             game.buttonMusic.play();
             return game.showMainPage();

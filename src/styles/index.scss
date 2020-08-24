@@ -16,6 +16,10 @@ span, article, footer, time, small {
   background: transparent;
 }
 
+body{
+    z-index: 0;
+}
+
 ul {
   list-style: none;
 }
@@ -27,8 +31,12 @@ img {
 }
 
 a{
-    cursor:pointer;
+    cursor: pointer;
     color: white;
+}
+
+a:hover{
+    color: green;
 }
 
 h2{
@@ -50,6 +58,8 @@ h2{
     align-items: center;
     margin-bottom: 20px;;
     justify-content: space-between;
+    position: relative;
+    z-index: 5;
 }
 
 .author{
@@ -66,12 +76,14 @@ h2{
 
 .icons{
     padding-right: 20px;
+ 
 }
 
 .icon-container{
     font-size: 35px;
     color:white;
     padding-right: 10px;
+    z-index: 150;
 }
 
 .icon-effect:hover{
