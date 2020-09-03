@@ -7,7 +7,7 @@ class Drop{
 
     check(character){
         if(character.pos.y + character.size.y > 350){
-            console.log('Drop! Game Over!');
+            //console.log('Drop! Game Over!');
             this.sound.play();
             return true
         }

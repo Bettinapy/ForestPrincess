@@ -12,12 +12,17 @@ class Sound{
         this.sound.loop = true;
     }
 
+    setVolumne(num){
+        this.sound.volume = num;
+    }
+
     play(){
         this.sound.play();
     }
 
     pause(){
         this.sound.pause();
+        this.sound.currentTime = 0;
     }
 
 }

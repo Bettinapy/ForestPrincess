@@ -1,6 +1,6 @@
 class EnemyWalk {
     constructor() {
-        this.speed = 4000;
+        this.speed = 3000;
         this.enemyDir = -1;
         this.distance = 0;
     }

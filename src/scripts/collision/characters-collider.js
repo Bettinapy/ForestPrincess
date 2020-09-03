@@ -7,16 +7,19 @@ class CharactersCollider{
     }
 
     check(obj){
+        let result = false;
         this.characters.forEach(character => {
             if(character === obj){
-                return
+                result = false;
+                return;
             }
             if(character.boundaries.isCollide(obj.boundaries)){
-                console.log('Collide! GAME OVER')
+                //console.log('Collide! GAME OVER')
                 this.sound.play();
-                return true;
+                result = true;
             }
         })
+        return result;
     }
 }
 

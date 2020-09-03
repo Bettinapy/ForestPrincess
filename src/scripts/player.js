@@ -12,6 +12,10 @@ class Player{
     update(timestep){
         this.timer.updateTime(timestep);
     }
+
+    reset(){
+        this.timer.resetTime();
+    }
 }
 
 export default Player;

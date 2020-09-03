@@ -7,6 +7,7 @@ class Jump{
         this.velocityY= 500;
         this.velocityX = 20;
         this.sound = new Sound("src/audios/jump.wav")
+        this.sound.setVolumne(0.3)
     }
 
     start(){
