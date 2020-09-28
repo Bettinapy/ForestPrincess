@@ -1,7 +1,9 @@
-# Forest Princess
+# Forest Princess 
 ## Overview
    The Forest Princess is a run game inspired by Princess Mononoke and Super Mario. Players need to overcome the obstacles to survive the game. 
+   [Play the game](https://bettinapy.github.io/ForestPrincess/) 
 ![](https://github.com/Bettinapy/ForestPrincess/blob/master/forestprincess.png)
+
 ## Wire frame
 ![alt text](https://github.com/Bettinapy/ForestPrincess/blob/master/Homepage.png)
 ## Functionality & MVP
